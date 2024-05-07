@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS `sites` (
   `occupancy` INT NULL,
   PRIMARY KEY (`site_id`));
 
-
 -- -----------------------------------------------------
 -- Table `scg`.`bookings`
 -- -----------------------------------------------------
