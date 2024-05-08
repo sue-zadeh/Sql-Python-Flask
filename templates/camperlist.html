@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-center text-danger font-weight-bold">Selwyn Campground - Camper List</h2>
+<h2 class="text-center">Selwyn Campground</h2>
+<h2 class="text-center"> Camper List</h2>
 
 <!-- Insert code to loop over the list of campers and display them -->
-<div class="list-group">
+<div class="list-group mt-3">
   {% for camper in camperlist %}
-    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-      <div>Name: {{ camper.name }} - Date: {{ camper.date }}</div>
+    <a href="#" class="list-group-item list-group-item-action">
+      Name: {{ camper.name }} - Site: {{ camper.site }} - Date: {{ camper.date }}
     </a>
   {% else %}
     <div class="list-group-item">No campers found for this date.</div>
   {% endfor %}
 </div>
+
 
 {% endblock %}

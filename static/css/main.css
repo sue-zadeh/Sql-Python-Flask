@@ -1,7 +1,7 @@
 /* Base Styles */
 body {
   background-color: #73aacf;
-  color: #320101;
+  color: #de2626;
   font-family: 'Cairo', 'Arial, sans-serif';
   padding:20px;
 }
@@ -11,7 +11,7 @@ body {
   padding-left: 20px;
   display: flex;
   justify-content: center;
-  font-size: 1.57rem;
+  font-size: 1.50rem;
   align-items: center;
   font-weight: bold;
   letter-spacing: 1px;
