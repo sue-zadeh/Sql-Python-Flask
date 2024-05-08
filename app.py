@@ -113,4 +113,4 @@ def add_customer():
       except mysql.connector.Error as err:
          flash('Failed to add customer: {}'.format(err))
          return render_template("add_customer.html")
-    return render_template("add_customer.html")   
+    return render_template("addcustomer.html")   
