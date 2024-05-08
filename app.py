@@ -24,7 +24,8 @@ def getCursor():
     database=connect.dbname, autocommit=True)
     dbconn = connection.cursor()
     return dbconn
-
+if __name__ == "__main__":
+    app.run(debug=True)
 @app.route("/")
 def home():
     return render_template("base.html")

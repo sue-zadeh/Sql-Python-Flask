@@ -1,0 +1,52 @@
+/* Base Styles */
+body {
+  background-color: #f8f9fa;
+  color: #320101;
+  font-family: 'Cairo', 'Arial, sans-serif';
+  padding:20px;
+}
+
+.navbar {
+  background-color: #8B0000;
+  padding-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+  border-radius: 0; /* No rounded corners */
+}
+
+.navbar .nav-link {
+  color: #ffffff;
+  transition: color 0.3s, text-decoration 0.3s;
+  position: relative;
+  margin-right: 10px; /* Space between items */
+  display: inline-block; /* Align properly without full-width */
+}
+
+.navbar .nav-link:hover, .navbar .nav-link:focus {
+  color: #ffcccb;
+  /* text-decoration: underline; */
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #9c2222;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+/* Adjust padding and margins as needed */
+.section {
+  padding: 20px;
+}
