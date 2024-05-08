@@ -3,10 +3,14 @@
 <h2>Selwyn Campground - Camper List</h2>
 
 <!-- Insert code to loop over the list of campers and display them -->
-<ul class="list-group">
+<div class="list-group">
   {% for camper in camperlist %}
-    <li class="list-group-item">Name: {{ camper.name }} - Date: {{ camper.date }}</li>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      <div>Name: {{ camper.name }} - Date: {{ camper.date }}</div>
+    </a>
+  {% else %}
+    <div class="list-group-item">No campers found for this date.</div>
   {% endfor %}
-</ul>
+</div>
 
 {% endblock %}
