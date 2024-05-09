@@ -42,15 +42,21 @@ def campers():
 
 
 #camper list
-@app.route("/camper_list")
+@app.route("/camper_list", methods=['GET'])
 def camper_list():
-   if request.method == "GET":
-        return render_template("camperlist.html", currentdate = datetime.now().date())
-   else:
-    cursor = getCursor()  
-    cursor.execute("SELECT * FROM customers JOIN bookings ON customer = customer_id JOIN sites ON site = site_id;")
-    camperList = cursor.fetchall()
-    return render_template("camperlist.html", camperlist=camperList)
+    camp_date = request.args.get('campdate')
+    if camp_date:
+        cursor = getCursor()
+        cursor.execute("""
+            SELECT customers.firstname, customers.familyname, sites.site_id, bookings.booking_date 
+            FROM bookings 
+            JOIN sites ON bookings.site = sites.site_id 
+            JOIN customers ON bookings.customer = customers.customer_id 
+            WHERE bookings.booking_date = %s;
+        """, (camp_date,))
+        camper_list = cursor.fetchall()
+        return render_template("camperlist.html", camperlist=camper_list, camp_date=camp_date)
+    return render_template("camperlist.html", camperlist=[], camp_date=None)
 
 @app.route("/booking", methods=['GET','POST'])
 def booking():

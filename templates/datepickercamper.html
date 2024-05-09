@@ -5,9 +5,12 @@
     <h2 class="text-danger"> Who is camping?</h2>
   <h3 class="mb-3">Choose the date you'd like to view who is camping.</h3>
   <form action="{{ url_for('campers') }}" method="POST" class="mb-4">
-      <input type="date" class="form-control" value="{{ currentdate }}" name="campdate" required>
+   <div class="mb-3">
+    <label for="campdate" class="form-label text-light">Select Date:</label>
+    <input type="date" class="form-control" id="campdate" name="campdate" value="{{ currentdate }}" required>
+   </div>
       <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-danger mt-2">Submit</button>
+      <button type="submit" class="btn btn-danger mt-2">View Campers</button>
       </div>
   </form>
 </div>

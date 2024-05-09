@@ -6,18 +6,18 @@
 
 <p>
 <form action="/booking/add" method="POST">
-<label for="bookingdate">Start Date to be booked</label>
+<label for="bookingdate" class="text-light">Start Date to be booked</label>
 <input type="text" enabled="false" name="bookingdate" value="{{bookingdate}}"/>
 <br>
 <input type="hidden" name="bookingnights" value="{{bookingnights}}"/>
 <input type="hidden" name="occupancy" value="{{occupancy}}"/>
-<label for="customer">Customer to book for</label>
+<label for="customer" class="text-light">Customer to book for</label>
 <select name="customer">
     {% for customer in customerlist %} 
     <option value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
     {% endfor %}
 </select><br>
-<label for="site">Site to select</label><br>
+<label for="site" class="text-light">Site to select</label><br>
 <!-- radio button loop -->
 {% for site in sitelist %}
 <input type="radio" name="site" value="{{site[0]}}"> {{site[0]}} - {{site[1]}} occupancy </input><br>
