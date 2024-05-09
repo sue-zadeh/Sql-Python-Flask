@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- code in here to display a list of books-->
-<div class="container mt-4">
+<div class="container mx-5 my-5">
   <h2 class="text-danger"> Make a Booking</h2>
   <h3 class="mb-3">Choose the date you'd like the booking to start on.</h3>
   <form action="{{ url_for('booking') }}" method="POST">
@@ -17,7 +17,9 @@
           <label for="occupancy" class="form-label">Number of people</label>
           <input type="number" class="form-control" name="occupancy" min="1" max="8" step="1" value="1" required>
       </div>
-      <button type="submit" class="btn btn-danger">Submit</button>
+      <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-danger my-4">Submit</button>
+      </div>
   </form>
 </div>
 

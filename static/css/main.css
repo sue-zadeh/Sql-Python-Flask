@@ -1,13 +1,13 @@
 /* Base Styles */
 body {
-  background-color: #8b8b8b !important; 
-  font-family: 'Cairo', 'montserrat', 'sans-serif';
-  padding:20px;
+    background-color: #f4f4f2!important;
+    padding-left: 5%!important;
+    padding-right: 5%!important;
 }
 
 .navbar-brand {
   color: #fafaca !important; 
-  font-size: 0.78rem;
+  font-size: 0.70rem;
   padding: 0px 1.5rem;
 }
 
@@ -16,7 +16,7 @@ body {
   padding-left: 20px;
   display: flex;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   align-items: center;
   font-weight: bold;
   letter-spacing: 1px;

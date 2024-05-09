@@ -44,10 +44,11 @@ def campers():
 #camper list
 @app.route("/camper_list")
 def camper_list():
-    cursor = get_cursor()
+    cursor = getCursor()  
     cursor.execute("SELECT * FROM customers JOIN bookings ON customer = customer_id JOIN sites ON site = site_id;")
     camperList = cursor.fetchall()
     return render_template("camperlist.html", camperlist=camperList)
+
 
 
 @app.route("/booking", methods=['GET','POST'])
