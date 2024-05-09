@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h2 class=" text-danger">Search Customers</h2>
+<div class="container-zone mt-5 justify-content-center mx-5">
+    <h2 class=" text-danger text-center">Search Customers</h2>
     <form action="{{ url_for('search_customers') }}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="search" class="form-label text-light">Customer Name:</label>

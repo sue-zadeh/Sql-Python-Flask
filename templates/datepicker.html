@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- code in here to display a list of books-->
-<div class="container mx-5 my-5">
-  <h2 class="text-danger"> Make a Booking</h2>
+<div class="container-zone mt-5 justify-content-center mx-5">
+  <h2 class="text-danger text-center"> Make a Booking</h2>
   <h3 class="mb-3 text-light">Choose the date you'd like the booking to start on.</h3>
   <form action="{{ url_for('booking') }}" method="POST">
       <div class="mb-3">
