@@ -3,8 +3,8 @@
 <!-- code in here to display a list of books-->
 <div class="container-zone mt-5 justify-content-center mx-5">
   <h2 class="text-danger text-center"> Make a Booking</h2>
-  <h3 class="mb-3 text-light">Choose the date you'd like the booking to start on.</h3>
-  <form action="{{ url_for('booking') }}" method="POST">
+  <h3 class="mb-3 text-light text-center">Choose the date you'd like the booking to start on.</h3>
+  <form action="{{ url_for('booking') }}" method="POST" class="m-5">
       <div class="mb-3">
           <label for="bookingdate" class="form-label text-light mx-5">Choose start night of booking</label>
           <input type="date" class="form-control mx-5" min="{{ currentdate }}" name="bookingdate" required>
