@@ -131,5 +131,3 @@ def add_edit_customer():
     
     return render_template("addeditcustomer.html", customer=customer)
 
-if __name__ == "__main__":
-    app.run(debug=True)
