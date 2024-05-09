@@ -1,9 +1,14 @@
 /* Base Styles */
 body {
-  background-color: #73aacf;
-  color: #de2626;
+  background-color: #8b8b8b !important; 
   font-family: 'Cairo', 'montserrat', 'sans-serif';
   padding:20px;
+}
+
+.navbar-brand {
+  color: #fafaca !important; 
+  font-size: 0.78rem;
+  padding: 0px 1.5rem;
 }
 
 .navbar {

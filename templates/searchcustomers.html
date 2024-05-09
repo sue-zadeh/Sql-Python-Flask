@@ -1,23 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-  <h2 class="text-danger">Search Customers</h2>
-<form action="{{ url_for('search_customers') }}" method="post">
-  <div class="mb-3">
-    <label for="search" class="form-label">Customer Name:</label>
-    <input type="text" class="form-control" id="search" name="search">
-  </div>
-  <button type="submit" class="btn btn-danger">Search</button>
-</form>
+<div class="container m-4">
+    <h2 class="text-danger">Search Customers</h2>
+    <form action="{{ url_for('search_customers') }}" method="post">
+        <div class="mb-3">
+            <label for="search" class="form-label">Customer Name:</label>
+            <input type="text" class="form-control" id="search" name="search">
+        </div>
+        <button type="submit" class="btn btn-danger">Search</button>
+    </form>
 
-{% if results %}
-  <div class="list-group mt-3">
-    {% for customer in results %}
-      <a href="#" class="list-group-item list-group-item-action">
-        {{ customer.firstname }} {{ customer.familyname }} - {{ customer.email }}
+    {% if results %}
+    <div class="list-group mt-3">
+        {% for customer in results %}
+        <a href="{{ url_for('add_edit_customer', id=customer.id) }}" class="list-group-item list-group-item-action">
+          {{ customer.firstname }} {{ customer.familyname }} - {{ customer.email }} - {{ customer.phone }}
       </a>
-    {% endfor %}
-  </div>
+      
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 {% endblock %}

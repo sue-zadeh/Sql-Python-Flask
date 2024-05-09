@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-danger">{{ 'Edit' if customer else 'Add New' }} Customer</h2>
+    <form action="{{ url_for('add_edit_customer', id=customer.id if customer else None) }}" method="post" class="mt-3">
+        <div class="mb-3">
+            <label for="firstname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" value="{{ customer.firstname if customer else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="familyname" class="form-label">Family Name</label>
+            <input type="text" class="form-control" id="familyname" name="familyname" value="{{ customer.familyname if customer else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ customer.email if customer else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ customer.phone if customer else '' }}">
+        </div>
+        <button type="submit" class="btn btn-danger">{{ 'Update' if customer else 'Add' }} Customer</button>
+    </form>
+</div>
+{% endblock %}

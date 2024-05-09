@@ -40,6 +40,16 @@ def campers():
         camperList = connection.fetchall()
         return render_template("datepickercamper.html", camperlist = camperList)
 
+
+#camper list
+@app.route("/camper_list")
+def camper_list():
+    cursor = get_cursor()
+    cursor.execute("SELECT * FROM customers JOIN bookings ON customer = customer_id JOIN sites ON site = site_id;")
+    camperList = cursor.fetchall()
+    return render_template("camperlist.html", camperlist=camperList)
+
+
 @app.route("/booking", methods=['GET','POST'])
 def booking():
     if request.method == "GET":
@@ -82,25 +92,36 @@ def search_customers():
         cursor = getCursor()
         cursor.execute("SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", ('%' + search_query + '%', '%' + search_query + '%'))
         results = cursor.fetchall()
-        return render_template("search_results.html", results=results)
+        return render_template("searchcustomers.html", results=results)
     return render_template("searchcustomers.html")
 
-@app.route("/add/customer", methods=['GET', 'POST'])
-def add_customer():
+@app.route("/add_edit_customer", methods=['GET', 'POST'])
+def add_edit_customer():
+    customer_id = request.args.get('id')
+    customer = None
+    if customer_id:
+        cursor = getCursor()
+        cursor.execute("SELECT * FROM customers WHERE id = %s", (customer_id,))
+        customer = cursor.fetchone()
+
     if request.method == 'POST':
         firstname = request.form.get('firstname')
         familyname = request.form.get('familyname')
         email = request.form.get('email')
         phone = request.form.get('phone')
-        cursor = getCursor()
-        try:
-            cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)", (firstname, familyname, email, phone))
-            flash('Customer successfully added!')
-            return redirect(url_for('add_customer'))
-        except mysql.connector.Error as err:
-            flash(f'Failed to add customer: {err}')
-            return render_template("addcustomer.html")
-    return render_template("addcustomer.html")
+        if customer:
+            # Update existing customer
+            cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE id=%s", 
+                           (firstname, familyname, email, phone, customer_id))
+        else:
+            # Insert new customer
+            cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)", 
+                           (firstname, familyname, email, phone))
+        cursor.connection.commit()
+        flash('Customer successfully added or updated!')
+        return redirect(url_for('add_edit_customer'))
+    
+    return render_template("addeditcustomer.html", customer=customer)
 
 if __name__ == "__main__":
     app.run(debug=True)
