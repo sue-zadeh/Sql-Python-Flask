@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<!--code for add or edit customer-->
 <div class="container-zone mt-5 justify-content-center mx-5">
     <h2 class="text-danger text-center">{{ 'Edit' if customer else 'Add New' }} Customer</h2>
     <form action="{{ url_for('add_edit_customer', id=customer.id if customer else None) }}" method="post" class="mt-3">

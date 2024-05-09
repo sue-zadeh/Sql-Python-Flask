@@ -6,16 +6,16 @@
   <h3 class="mb-3 text-light">Choose the date you'd like the booking to start on.</h3>
   <form action="{{ url_for('booking') }}" method="POST">
       <div class="mb-3">
-          <label for="bookingdate" class="form-label text-light">Choose start night of booking</label>
-          <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" required>
+          <label for="bookingdate" class="form-label text-light mx-5">Choose start night of booking</label>
+          <input type="date" class="form-control mx-5" min="{{ currentdate }}" name="bookingdate" required>
       </div>
       <div class="mb-3">
-          <label for="bookingnights" class="form-label text-light">Number of nights</label>
-          <input type="number" class="form-control" name="bookingnights" min="1" max="5" step="1" value="1" required>
+          <label for="bookingnights" class="form-label text-light mx-5">Number of nights</label>
+          <input type="number" class="form-control mx-5" name="bookingnights" min="1" max="5" step="1" value="1" required>
       </div>
       <div class="mb-3">
-          <label for="occupancy" class="form-label text-light">Number of people</label>
-          <input type="number" class="form-control" name="occupancy" min="1" max="8" step="1" value="1" required>
+          <label for="occupancy" class="form-label text-light mx-5">Number of people</label>
+          <input type="number" class="form-control mx-5" name="occupancy" min="1" max="8" step="1" value="1" required>
       </div>
       <div class="d-flex justify-content-center">
       <button type="submit" class="btn btn-danger my-4">Submit</button>

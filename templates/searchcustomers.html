@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<!--search customers -->
 <div class="container-zone mt-5 justify-content-center mx-5">
     <h2 class=" text-danger text-center">Search Customers</h2>
     <form action="{{ url_for('search_customers') }}" method="post" class="mt-4">
@@ -11,7 +12,7 @@
             <button type="submit" class="btn btn-danger">Search</button>
         </div>
     </form>
-
+<!-- Display the search result: show firstname, familyname, email and phone for each customer-->
     {% if results %}
     <div class="list-group mt-3">
         {% for customer in results %}

@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 dbconn = None
 connection = None
-
+# connect to the database
 def getCursor():
     global dbconn
     global connection
@@ -24,7 +24,7 @@ def getCursor():
     database=connect.dbname, autocommit=True)
     dbconn = connection.cursor()
     return dbconn
-
+# home page
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -92,7 +92,7 @@ def makebooking():
     except mysql.connector.Error as err:
         flash(f'Failed to add booking: {err}')
         return redirect(url_for('bookingconfirmation.html'))
-
+# search customers
 @app.route("/search/customers", methods=['GET', 'POST'])
 def search_customers():
     if request.method == 'POST':
@@ -102,7 +102,7 @@ def search_customers():
         results = cursor.fetchall()
         return render_template("searchcustomers.html", results=results)
     return render_template("searchcustomers.html")
-
+# add_edit_customer
 @app.route("/add_edit_customer", methods=['GET', 'POST'])
 def add_edit_customer():
     customer_id = request.args.get('id')
