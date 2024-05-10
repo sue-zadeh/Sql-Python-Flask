@@ -3,7 +3,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 
 
 	
-| ![SelwynCampground](docs/SelwynCampground.png)
+| ![SelwynCampground](Docs/SelwynCampground.png)
 
 	**Database questions:**   
 
