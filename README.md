@@ -4,12 +4,15 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 ![Selwyn Campground](Selwyn_Campground.png "Selwyn Campground")
 
 	
-
+<picture>
+  <img alt="Selwyn Campground" src="Selwyn_Campground.png">
+</picture>
 	Database questions:   
 
 	Refer to the supplied scg_local.sql file to answer the following questions: 
 
-	1- What SQL statement creates the customer table and defines its fields/columns? (Copy and paste the relevant lines of SQL.)      
+	1- What SQL statement creates the customer table and defines its fields/columns?
+   (Copy and paste the relevant lines of SQL.)      
 
    ```CREATE TABLE IF NOT EXISTS `customers` (
   `customer_id` INT NOT NULL AUTO_INCREMENT,
