@@ -105,29 +105,27 @@ def search_customers():
 # add_edit_customer
 @app.route("/add_edit_customer", methods=['GET', 'POST'])
 def add_edit_customer():
-    customer_id = request.args.get('id')
-    customer = None
-    if customer_id:
-        cursor = getCursor()
-        cursor.execute("SELECT * FROM customers WHERE id = %s", (customer_id,))
-        customer = cursor.fetchone()
-
-    if request.method == 'POST':
-        firstname = request.form.get('firstname')
-        familyname = request.form.get('familyname')
-        email = request.form.get('email')
-        phone = request.form.get('phone')
-        if customer:
-            # Update existing customer
-            cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE id=%s", 
-                           (firstname, familyname, email, phone, customer_id))
-        else:
-            # Insert new customer
-            cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)", 
-                           (firstname, familyname, email, phone))
-        cursor.connection.commit()
-        flash('Customer successfully added or updated!')
-        return redirect(url_for('add_edit_customer'))
-    
+    try:
+        customer_id = request.args.get('id')
+        customer = None
+        if customer_id:
+            cursor = getCursor()
+            cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
+            customer = cursor.fetchone()
+        if request.method == 'POST':
+            firstname = request.form.get('firstname')
+            familyname = request.form.get('familyname')
+            email = request.form.get('email')
+            phone = request.form.get('phone')
+            if customer:
+                cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE customer_id=%s",
+                               (firstname, familyname, email, phone, customer_id))
+            else:
+                cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)",
+                               (firstname, familyname, email, phone))
+            cursor.connection.commit()
+            flash('Customer successfully added or updated!')
+            return redirect(url_for('add_edit_customer'))
+    except Exception as e:
+        return str(e)  # for debugging, show the error to the browser
     return render_template("addeditcustomer.html", customer=customer)
-
