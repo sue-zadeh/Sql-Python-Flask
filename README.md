@@ -5,7 +5,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 	
 | ![SelwynCampground](docs/SelwynCampground.png)
 
-	Database questions:   
+	**Database questions:**   
 
 	Refer to the supplied scg_local.sql file to answer the following questions: 
 
@@ -64,18 +64,40 @@ INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupa
 INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('237', 'U2', '241', '2024-07-05','2');  
 INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('238', 'U2', '241', '2024-07-06','2');     
 
-	4- Suppose that as part of an audit trail, the time and date a booking was added to the <br>database needed to be recorded. What fields/columns would you need to add to which <br>tables? Provide the table name, new column name and the data type. (Do not implement <br>this change in your app.) 
+	4- Suppose that as part of an audit trail, the time and date a booking was added to the database needed to be recorded. What fields/columns would you need to add to which tables? Provide the table name, new column name and the data type. (Do not implement this change in your app.) 
 
 •	table name: Bookings    
 •	new column name: created_at    
 •	data type: datetime or TimeStamp         
 	
-	5- Suppose the ability for customers to make their own bookings was added. Describe two <br>different changes that would be needed to the data model to implement this. (Do not <br>implement these changes in your app.)     
+	5- Suppose the ability for customers to make their own bookings was added. Describe two different changes that would be needed to the data model to implement this. (Do not implement these changes in your app.)      
 
 • Adding a user authentication system: This usually involves creating a new table such as users with fields user_id, username, password_hash, ..... Each client can be linked to a user to be able having a secure login. 
 
 • Modify the reservations table to include a status field: this will track the status of each reservation (for example pending, confirmed, canceled). It helps manage bookings to be done directly by customers, including changes or cancellations.        
 	
-  
+=================================================================================
+ 
+ **Design decisions**
+During the development of this Flask project, I focused on creating a user-friendly and functional interface. Here is a summary of the key decisions that affected the project:  
+
+*User interface design:*  
+I chose a red color theme based on insights presented in the Comp 640 class about the impact of color on UX. The vibrant red color has been chosen to attract and engage users and provides an energetic feel to the app.  
+
+*Navigation and layout:*    
+Aiming for simplicity and usability, I integrated Bootstrap to take advantage of its responsive design capabilities. This choice was based on previous positive experiences with the framework.   
+
+*Form management and page navigation:*  
+To improve the user experience, submissions made through the booking form will be redirected to a new page where the results will be displayed.  This separation ensures clarity between user actions and system responses. For simpler tasks like searching, results appear on the same page to use space efficiently due to minimal input required.  
+
+*Technical decisions*  
+Data management: At first I had problems with MySQL because I forgot my password.   I solved this problem using a special command lines tool I found on Google.  
+Troubleshooting: I tried to fix an issue where client searches were returning empty results by changing the SQL queries and adjusting the template rendering.    
+*Routing and server logic:*  
+Posting data: I used POST methods for forms to ensure data security and integrity.  
+Data retrieval: GET methods were used to retrieve data for display.  
+Template flexibility: For certain functions like editing, I used conditional statements in templates to minimize redundancy and simplify development.  
+*Implementation challenges:*  
+Navigating the complexities of MySQL and debugging unexpected errors in Flask were important learning experiences in this project. Writing the README.md was also challenging yet rewarding and helped sharpen my skills.   
 
       
