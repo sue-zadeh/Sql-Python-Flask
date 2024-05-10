@@ -78,75 +78,61 @@ def booking():
 
   # booking/add 
 def makebooking():
-    site = request.form.get('site')
-    customer = request.form.get('customer')
-    booking_date = request.form.get('bookingdate')
-    occupancy = request.form.get('occupancy')
-    booking_nights = int(request.form.get('bookingnights'))
-    cursor = getCursor()
-    end_date = datetime.strptime(booking_date, '%Y-%m-%d') + timedelta(days=booking_nights)
-    try:
+  if request.method == "GET":
+     return render_template("datepickercamper.html", currentdate = datetime.now().date(),            currentdate = datetime.now().date())
+  site = request.form.get('site')
+  customer = request.form.get('customer')
+  booking_date = request.form.get('bookingdate')
+  occupancy = request.form.get('occupancy')
+  booking_nights = int(request.form.get('bookingnights'))
+  cursor = getCursor()
+  end_date = datetime.strptime(booking_date, '%Y-%m-%d') + timedelta(days=booking_nights)
+  try:
         cursor.execute("INSERT INTO bookings (site, customer, booking_date, end_date, occupancy) VALUES (%s, %s, %s, %s, %s)", (site, customer, booking_date, end_date.strftime('%Y-%m-%d'), occupancy))
         flash('Booking successfully added!')
         return redirect(url_for('booking'))
     except mysql.connector.Error as err:
         flash(f'Failed to add booking: {err}')
         return redirect(url_for('bookingconfirmation.html'))
+
 # search customers
-@app.route("/search/customers", methods=["GET", "POST"])
-def search_customers() -> str:
-    if request.method == "POST":
-        search_query = request.form["search"]
+@app.route("/search/customers", methods=['GET', 'POST'])
+def search_customers():
+    if request.method == 'POST':
+        search_query = request.form.get('search')
         cursor = getCursor()
-        cursor.execute(
-            "SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", ("%" + search_query + "%", "%" + search_query + "%")
-        )
+        cursor.execute("SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", ('%' + search_query + '%', '%' + search_query + '%'))
         results = cursor.fetchall()
         return render_template("searchcustomers.html", results=results)
     return render_template("searchcustomers.html")
-  
-# add/edit customer 
-@app.route("/add_edit_customer", methods=["GET", "POST"])
-def add_edit_customer() -> str:
-    customer_id: Optional[int] = request.args.get("id")
-    customer: Optional[Dict[str, str]] = None
-    cursor: Optional[mysql.connector.cursor.MySQLCursor] = None
 
-    try:
-        cursor = getCursor()
-        if customer_id is not None:
+# add_edit_customer
+@app.route("/add_edit_customer", methods=['GET', 'POST'])
+def add_edit_customer():
+  cur = mysql.connection.cursor()
+  cur.callproc('sp_createUser', (firstname, familyname, email, phone))
+  data = cur.fetchall()
+  try:
+        customer_id = request.args.get('id')
+        customer = None
+        if customer_id:
+            cursor = getCursor()
             cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
             customer = cursor.fetchone()
-
-        if request.method == "POST":
-            firstname = request.form.get("firstname", "").strip()
-            familyname = request.form.get("familyname", "").strip()
-            email = request.form.get("email", "").strip()
-            phone = request.form.get("phone", "").strip()
-
-            if customer is not None:
-                # Update existing customer
-                cursor.execute(
-                    "UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE customer_id=%s",
-                    (firstname, familyname, email, phone, customer_id),
-                )
+        if request.method == 'POST':
+            firstname = request.form.get('firstname')
+            familyname = request.form.get('familyname')
+            email = request.form.get('email')
+            phone = request.form.get('phone')
+            if customer:
+                cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE customer_id=%s",
+                               (firstname, familyname, email, phone, customer_id))
             else:
-                # Insert new customer
-                cursor.execute(
-                    "INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)",
-                    (firstname, familyname, email, phone),
-                )
-            if cursor is not None:
-                cursor.connection.commit()
-            flash("Customer successfully added or updated!")
-            return redirect(url_for("add_edit_customer"))
-
-    except Exception as e:
-        # Show errors
-        if cursor is not None:
-            cursor.connection.rollback()
-        flash(f"Error: {e}")
-
-    return render_template("addeditcustomer.html", customer=customer)
-
-       
+                cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)",
+                               (firstname, familyname, email, phone))
+            cursor.connection.commit()
+            flash('Customer successfully added or updated!')
+            return redirect(url_for('add_edit_customer'))
+  except Exception as e:
+        return str(e)  # for debugging, show the error to the browser
+        return render_template("addeditcustomer.html", customer=customer)
