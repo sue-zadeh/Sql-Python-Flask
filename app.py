@@ -79,7 +79,7 @@ def booking():
   # booking/add 
 def makebooking():
   if request.method == "GET":
-     return render_template("datepickercamper.html", currentdate = datetime.now().date(),            currentdate = datetime.now().date())
+     return render_template("datepicker.html", currentdate = datetime.now().date())
   site = request.form.get('site')
   customer = request.form.get('customer')
   booking_date = request.form.get('bookingdate')
@@ -91,7 +91,7 @@ def makebooking():
         cursor.execute("INSERT INTO bookings (site, customer, booking_date, end_date, occupancy) VALUES (%s, %s, %s, %s, %s)", (site, customer, booking_date, end_date.strftime('%Y-%m-%d'), occupancy))
         flash('Booking successfully added!')
         return redirect(url_for('booking'))
-    except mysql.connector.Error as err:
+  except mysql.connector.Error as err:
         flash(f'Failed to add booking: {err}')
         return redirect(url_for('bookingconfirmation.html'))
 
