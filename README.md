@@ -1,9 +1,11 @@
 # Sql-Python-Flask
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
 
-![Selwyn Campground](docs/Selwyn_Campground.png "Selwyn Campground")
 
-	
+	Main Page
+------------------------------------|
+![MainPage](docs/SelwynCampground.png)
+
 	Database questions:   
 
 	Refer to the supplied scg_local.sql file to answer the following questions: 
@@ -51,17 +53,17 @@ INSERT INTO `customers` (`customer_id`, `firstname`, `familyname`, `email`, `pho
 INSERT INTO `customers` (`customer_id`, `firstname`, `familyname`, `email`, `phone`)   VALUES ('1660', 'Heidi', 'Delaney', 'HDelaney@gmail.com', '0282942819');  
 INSERT INTO `customers` (`customer_id`, `firstname`, `familyname`, `email`, `phone`)   VALUES ('1661', 'Michael', 'Wright', 'Michael_Wright@gmail.com', '037512653');  
 INSERT INTO `customers` (`customer_id`, `firstname`, `familyname`, `email`, `phone`)   VALUES ('1662', 'Elizabeth', 'Preston', 'ElizabethPreston@gmail.com', '094255377');  
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('346', 'P1', '1659', '2024-05-12','2');  
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)    VALUES ('347', 'P1', '1659', '2024-05-13','2');  
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('348', 'P1', '1659', '2024-05-14','2');  
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)    VALUES ('231', 'P5', '563', '2024-06-01','7');  
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('232', 'P5', '563', '2024-06-02','7');
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`) VALUES ('233', 'P5', '563', '2024-06-03','7');
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`) VALUES ('234', 'P5', '563', '2024-06-04','7');
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`) VALUES ('235', 'U2', '241', '2024-06-02','2');  
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('236', 'U2', '241', '2024-06-05','2');
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('237', 'U2', '241', '2024-07-05','2');
-INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('238', 'U2', '241', '2024-07-06','2');   
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('346', 'P1', '1659', '2024-05-12','2');   
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('347', 'P1', '1659', '2024-05-13','2');  
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('348', 'P1', '1659', '2024-05-14','2');   
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)    VALUES ('231', 'P5', '563', '2024-06-01','7');   
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)    VALUES ('232', 'P5', '563', '2024-06-02','7');  
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)  VALUES ('233', 'P5', '563', '2024-06-03','7');  
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`) VALUES ('234', 'P5', '563', '2024-06-04','7');  
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`) VALUES ('235', 'U2', '241', '2024-06-02','2');    
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('236', 'U2', '241', '2024-06-05','2');  
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('237', 'U2', '241', '2024-07-05','2');  
+INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('238', 'U2', '241', '2024-07-06','2');     
 
 	4- Suppose that as part of an audit trail, the time and date a booking was added to the <br>database needed to be recorded. What fields/columns would you need to add to which <br>tables? Provide the table name, new column name and the data type. (Do not implement <br>this change in your app.) 
 
