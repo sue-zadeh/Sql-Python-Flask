@@ -19,11 +19,28 @@ connection = None
 def getCursor():
     global dbconn
     global connection
-    connection = mysql.connector.connect(user=connect.dbuser, \
-    password=connect.dbpass, host=connect.dbhost, \
-    database=connect.dbname, autocommit=True)
-    dbconn = connection.cursor()
-    return dbconn
+
+    try:
+        connection = mysql.connector.connect(
+            user=connect.dbuser,
+            password=connect.dbpass,
+            host=connect.dbhost,
+            database=connect.dbname,
+            autocommit=True
+        )
+        if connection.is_connected():
+            db_info = connection.get_server_info()
+            print("Connected to MySQL Server version ", db_info)
+            cursor = connection.cursor(buffered=True)
+            cursor.execute("select database();")
+            record = cursor.fetchone()
+            print("You're connected to database: ", record)
+            return cursor, connection
+    except mysql.connector.Error as e:
+        print("Error while connecting to MySQL", e)
+        flash("Error while connecting to the database")
+        return None, None
+
 # home page
 @app.route("/")
 def home():
@@ -107,32 +124,13 @@ def search_customers():
     return render_template("searchcustomers.html")
 
 # add_edit_customer
-@app.route("/add_edit_customer", methods=['GET', 'POST'])
+@app.route('/add_edit_customer', methods=['GET', 'POST'])
 def add_edit_customer():
-  cur = mysql.connection.cursor()
-  cur.callproc('sp_createUser', (firstname, familyname, email, phone))
-  data = cur.fetchall()
-  try:
-        customer_id = request.args.get('id')
-        customer = None
-        if customer_id:
-            cursor = getCursor()
-            cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
-            customer = cursor.fetchone()
-        if request.method == 'POST':
-            firstname = request.form.get('firstname')
-            familyname = request.form.get('familyname')
-            email = request.form.get('email')
-            phone = request.form.get('phone')
-            if customer:
-                cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE customer_id=%s",
-                               (firstname, familyname, email, phone, customer_id))
-            else:
-                cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)",
-                               (firstname, familyname, email, phone))
-            cursor.connection.commit()
-            flash('Customer successfully added or updated!')
-            return redirect(url_for('add_edit_customer'))
-  except Exception as e:
-        return str(e)  # for debugging, show the error to the browser
-        return render_template("addeditcustomer.html", customer=customer)
+    cursor, connection = getCursor()
+    if not cursor:
+        return render_template("error_page.html")  # Create an error_page.html to handle database errors
+    # Implement the logic for your route
+    return render_template('addeditcustomer.html')
+
+if __name__ == "__main__":
+    app.run(debug=True)

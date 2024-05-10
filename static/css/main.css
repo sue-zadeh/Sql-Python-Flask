@@ -1,0 +1,56 @@
+/* Base Styles */
+body {
+    background-color: #f4f4f2!important;
+    padding-left: 5%!important;
+    padding-right: 5%!important;
+}
+
+.navbar-brand {
+  color: #fafaca !important; 
+  font-size: 0.70rem;
+  padding: 0px 1.5rem;
+}
+
+.navbar {
+  background-color: #8B0000;
+  padding-left: 20px;
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  align-items: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+  border-radius: 0; 
+}
+.navbar .nav-link {
+  color: #ffffff;
+  transition: color 0.3s, text-decoration 0.3s;
+  position: relative;
+  margin-right: 10px; 
+  display: inline-block; 
+}
+
+.navbar .nav-link:hover, .navbar .nav-link:focus {
+  color: #ffcccb;
+  /* text-decoration: underline; */
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #9c2222;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+.section {
+  padding: 20px;
+}

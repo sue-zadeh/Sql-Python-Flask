@@ -3,7 +3,7 @@
 <!--search customers -->
 <div class="container-zone mt-5 justify-content-center mx-5">
     <h2 class=" text-danger text-center">Search Customers</h2>
-    <form action="{{ url_for('search_customers') }}" method="post" class="m-5">
+    <form action="{{ url_for('search_customers') }}" method="post" class="m-5 p-5" >
         <div class="mb-3">
             <label for="search" class="form-label text-light">Customer Name:</label>
             <input type="text" class="form-control" id="search" name="search">
@@ -14,7 +14,7 @@
     </form>
 <!-- Display the search result: show firstname, familyname, email and phone for each customer-->
     {% if results %}
-    <div class="list-group mt-3">
+    <div class="list-group mt-5">
         {% for customer in results %}
         <a href="{{ url_for('add_edit_customer', id=customer.id) }}" class="list-group-item list-group-item-action">
             {{ customer.firstname }} {{ customer.familyname }} - {{ customer.email }} - {{ customer.phone }}

@@ -79,11 +79,12 @@ INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupa
 	
 =================================================================================
  
- **Design decisions**
+ **Design decisions**  
+
 During the development of this Flask project, I focused on creating a user-friendly and functional interface. Here is a summary of the key decisions that affected the project:  
 
 *User interface design:*  
-I chose a red color theme based on insights presented in the Comp 640 class about the impact of color on UX. The vibrant red color has been chosen to attract and engage users and provides an energetic feel to the app.  
+I chose a red color theme based on insights presented in the Comp 640 class about the impact of the red color on UX. Through that presentation I learnt about other colors impact on UX too. The vibrant red color has been chosen to attract and engage users and provides an energetic feel to the app. I studied  
 
 *Navigation and layout:*    
 Aiming for simplicity and usability, I integrated Bootstrap to take advantage of its responsive design capabilities. This choice was based on previous positive experiences with the framework.   
