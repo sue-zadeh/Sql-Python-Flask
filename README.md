@@ -2,9 +2,8 @@
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
 
 
-	Main Page
-------------------------------------|
-![MainPage](docs/SelwynCampground.png)
+	
+| ![SelwynCampground](docs/SelwynCampground.png)
 
 	Database questions:   
 
