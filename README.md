@@ -20,7 +20,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
   `familyname` VARCHAR(60) NOT NULL,  
   `email` VARCHAR(255) NULL,  
   `phone` VARCHAR(12) NULL,  
-  PRIMARY KEY (`customer_id`));    
+   PRIMARY KEY (`customer_id`));    
   
   
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
@@ -33,8 +33,8 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
   
   **3- Which lines of SQL code insert details into the sites table?**    
 
-   `INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P1', '5');  
-   INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');  
+   ```INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P1', '5');    
+   INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
    INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
    INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P5', '8');  
    INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P3', '2');  
