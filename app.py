@@ -133,36 +133,22 @@ def search_customers():
 def add_edit_customer():
    cursor = getCursor()
    if cursor is None:
-        flash("Database connection could not be established.")
-        return render_template("error_page.html")
-   try:
-        customer_id = request.args.get('id')
-        customer = None
-        if customer_id:
-            cursor = getCursor()
-            cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
-            customer = cursor.fetchone()
-        if request.method == 'POST':
-            firstname = request.form.get('firstname')
-            familyname = request.form.get('familyname')
-            email = request.form.get('email')
-            phone = request.form.get('phone')
-            if customer:
-                cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE customer_id=%s",
-                               (firstname, familyname, email, phone, customer_id))
-            else:
-                cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)",
-                               (firstname, familyname, email, phone))
-                cur = mysql.connection.cursor()
-                cur.callproc('sp_createUser', (firstname, familyname, email, phone, customer_id))
-                data = cur.fetchall()
-            cursor.connection.commit()
-            flash('Customer successfully added or updated!')
-            return redirect(url_for('add_edit_customer'))
-   except Exception as e:
-        return str(e)
-      # for debugging, show the error to the browser
-   return render_template("addeditcustomer.html", customer=customer)
+    if request.method == 'POST':
+        firstname = request.form.get('firstname')
+        familyname = request.form.get('familyname')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        try:
+            connection = getCursor()
+            query = "INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)"
+            connection.execute(query, (firstname, familyname, email, phone))
+            connection.commit()
+            flash('Customer successfully added!')
+        except mysql.connector.Error as err:
+            flash('Failed to add customer: {}'.format(err))
+        return redirect(url_for('add_edit_customer'))
+    return render_template("addeditcustomer.html")
+
 
   # for error handeling
 if __name__ == "__main__":
