@@ -2,8 +2,8 @@
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
 
 
-## Go to Database questions
-## Go to Design decisions
+## Database questions
+## Design decisions
 
 | ![SelwynCampground](Docs/SelwynCampground.png)
 
