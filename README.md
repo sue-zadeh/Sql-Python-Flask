@@ -1,7 +1,8 @@
 # Sql-Python-Flask
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
+## title {.tabset .tabset-fade}
 
-
+### tab Database questions
 	
 | ![SelwynCampground](Docs/SelwynCampground.png)
 
@@ -77,13 +78,14 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 • Modify the reservations table to include a status field: this will track the status of each reservation (for example pending, confirmed, canceled). It helps manage bookings to be done directly by customers, including changes or cancellations.        
 	
 =================================================================
- 
+ ### tab Design decisions
+
 ***Design decisions*** 
 
 During the development of this Flask project, I focused on creating a user-friendly and functional interface. Here is a summary of the key decisions that affected the project:  
 
 *User interface design:*  
-I chose a red color theme based on insights presented in the Comp 640 class about the impact of the red color on UX. Through that presentation I learnt about other colors impact on UX too. The vibrant red color has been chosen to attract and engage users and provides an energetic feel to the app. I studied  
+I chose a red color theme based on insights presented in the Comp 640 class about the impact of the red color on UX. Through that presentation I learnt about other colors impact on UX too. The vibrant red color has been chosen to attract and engage users and provides an energetic feel to the app.  
 
 *Navigation and layout:*    
 Aiming for simplicity and usability, I integrated Bootstrap to take advantage of its responsive design capabilities. This choice was based on previous positive experiences with the framework.   
