@@ -2,11 +2,13 @@
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
 
 
-## tab Database questions
-## tab Design decisions
+## Go to Database questions
+## Go to Design decisions
 
 | ![SelwynCampground](Docs/SelwynCampground.png)
-##**Database questions:**   
+
+
+** Database questions:**   
 
 **Refer to the supplied scg_local.sql file to answer the following questions:** 
 **1- What SQL statement creates the customer table and defines its fields/columns?
@@ -79,7 +81,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 	
 =================================================================
 
-##***Design decisions*** 
+***Design decisions*** 
 
 During the development of this Flask project, I focused on creating a user-friendly and functional interface. Here is a summary of the key decisions that affected the project:  
 
