@@ -1,12 +1,12 @@
 # Sql-Python-Flask
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
-## title {.tabset .tabset-fade}
 
-### tab Database questions
-	
+
+## tab Database questions
+## tab Design decisions
+
 | ![SelwynCampground](Docs/SelwynCampground.png)
-
-***Database questions:***   
+##**Database questions:**   
 
 **Refer to the supplied scg_local.sql file to answer the following questions:** 
 **1- What SQL statement creates the customer table and defines its fields/columns?
@@ -78,9 +78,8 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 • Modify the reservations table to include a status field: this will track the status of each reservation (for example pending, confirmed, canceled). It helps manage bookings to be done directly by customers, including changes or cancellations.        
 	
 =================================================================
- ### tab Design decisions
 
-***Design decisions*** 
+##***Design decisions*** 
 
 During the development of this Flask project, I focused on creating a user-friendly and functional interface. Here is a summary of the key decisions that affected the project:  
 
