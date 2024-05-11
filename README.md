@@ -5,7 +5,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 	
 | ![SelwynCampground](Docs/SelwynCampground.png)
 
-	**Database questions:**   
+***Database questions:***   
 
 **Refer to the supplied scg_local.sql file to answer the following questions:** 
 **1- What SQL statement creates the customer table and defines its fields/columns?
