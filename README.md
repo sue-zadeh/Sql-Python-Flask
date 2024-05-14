@@ -20,7 +20,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
   `familyname` VARCHAR(60) NOT NULL,  
   `email` VARCHAR(255) NULL,  
   `phone` VARCHAR(12) NULL,  
-   PRIMARY KEY (`customer_id`));```    
+   PRIMARY KEY (`customer_id`));      
   
   
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
@@ -64,7 +64,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
    INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`) VALUES ('235', 'U2', '241', '2024-06-02','2');    
    INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)   VALUES ('236', 'U2', '241', '2024-06-05','2');  
    INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('237', 'U2', '241', '2024-07-05','2');  
-   INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('238', 'U2', '241', '2024-07-06','2');```     
+   INSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,`occupancy`)     VALUES ('238', 'U2', '241', '2024-07-06','2');       
 
 **4- Suppose that as part of an audit trail, the time and date a booking was added to the database needed to be recorded. What fields/columns would you need to add to which tables? Provide the table name, new column name and the data type. (Do not implement this change in your app.)**   
 
