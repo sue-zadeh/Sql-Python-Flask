@@ -92,7 +92,7 @@ I chose a red color theme based on insights presented in the Comp 640 class abou
 The layout and navigation structure of the app was heavily influenced by what I learned in the UX Design course (COM640). My goal was simplicity and intuitive design to make the app user-friendly. I researched several other sites for layout inspiration and made sure our app navigation was logical and efficient. Built with Bootstrap, the navigation bar is a vital component that provides easy access to all parts of the app for users.    
 
 *Form Management and Page Navigation:*  
-In designing the app, I chose to dedicate specific pages to display form data after submission. This decision was driven by the principle of user control and freedom from interaction design—one of the ten key principles. By doing this, I aimed to give users a clear view and control over the data they submitted, enhancing their ability to manage their inputs effectively.   
+In designing the app, I chose to dedicate specific pages to display form data after submission. This decision was driven by the principles of interaction design, specially visibility of system status, user control and freedom which are two of the ten key principles. By doing this, I aimed to give users a clear view and control over the data they submitted, enhancing their ability to manage their inputs effectively.   
 
 *Technical decisions*    
 Data management: At first I had problems with MySQL because I forgot my password. I solved this problem using a special command lines tool I found on Google.      

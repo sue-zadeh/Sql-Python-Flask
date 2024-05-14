@@ -1,26 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<!--search customers -->
 <div class="container-zone mt-5 justify-content-center mx-5">
-    <h2 class=" text-danger text-center">Search Customers</h2>
-    <form action="{{ url_for('search_customers') }}" method="post" class="m-5 p-5" >
-        <div class="mb-3">
-            <label for="search" class="form-label text-light">Customer Name:</label>
-            <input type="text" class="form-control" id="search" name="search">
-        </div>
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-danger">Search</button>
-        </div>
-    </form>
-<!-- Display the search result: show firstname, familyname, email and phone for each customer-->
-    {% if results %}
-    <div class="list-group mt-5">
+  <h2 class=" text-danger text-center">Search Customers</h2>
+  <form action="{{ url_for('search_customers') }}" method="post" class="m-5 px-5" >
+      <div class="mb-2">
+          <label for="search" class="form-label text-light">Customer Name:</label>
+          <input type="text" class="form-control" id="search" name="search">
+      </div>
+      <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-danger">Search</button>
+      </div>
+  </form>
+{% if results %}
+    <h3 class=" text-light text-center m-3">Search results. Please click on the first name if you like to edit customer information:</h3>
+    <div class="container-zone mt-5 justify-content-center mx-5">
+    <table class='table table-dark'>
+        <tr>
+            <th class=" text-light text-center">First Name</th>
+            <th class=" text-light text-center">Family Name</th>
+            <th class=" text-light text-center">Email</th>
+            <th class=" text-light text-center">Phone</th>
+            <th class=" text-light text-center">Edit</th>
+        </tr>
         {% for customer in results %}
-        <a href="{{ url_for('add_edit_customer', id=customer.id) }}" class="list-group-item list-group-item-action">
-            {{ customer.firstname }} {{ customer.familyname }} - {{ customer.email }} - {{ customer.phone }}
-        </a>
+        <tr>
+            <td class=" text-light text-center">{{ customer[1] }}</td>
+            <td class=" text-light text-center">{{ customer[2] }}</td>
+            <td class=" text-light text-center">{{ customer[3] }}</td>
+            <td class=" text-light text-center">{{ customer[4] }}</td>
+            <td class=" text-light text-center"><a href="{{ url_for('add_edit_customer', id=customer[0]) }}">Edit</a></td>
+        </tr>
         {% endfor %}
-    </div>
-    {% endif %}
-</div>
+    </table>
+  </div>
+{% else %}
+    <p>No customers found. Try different keywords.</p>
+{% endif %}
 {% endblock %}
