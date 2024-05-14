@@ -8,6 +8,14 @@
       {% for camper in camperlist %}
         <a href="#" class="list-group-item list-group-item-action text-light m-5">
           Name: {{ camper.firstname }} {{ camper.familyname }} - Site: {{ camper.site_id }} - Date: {{ camper.booking_date | date: "%Y-%m-%d" }}
+          <table class='table table-dark'>
+            <tr>
+                <th class=" text-light text-center">First Name</th>
+                <th class=" text-light text-center">Family Name</th>
+                <th class=" text-light text-center">Email</th>
+                <th class=" text-light text-center">Phone</th>
+                <th class=" text-light text-center">Edit</th>
+            </tr>
         </a>
       {% endfor %}
     {% else %}

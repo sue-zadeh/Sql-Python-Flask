@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- code in here to display a list of books-->
-<div class="container-zone mt-5 justify-content-center mx-5">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+      <div class="col-md-8">
   <h2 class="text-danger text-center "> Who is camping?</h2>
   <h3 class="mb-3">Choose the date you'd like to view who is camping.</h3>
   <form action="{{ url_for('camper_list') }}" method="get" class="m-5">
@@ -10,9 +12,11 @@
     <input type="date" class="form-control" id="campdate" name="campdate" value="{{ currentdate }}" required>
    </div>
       <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-danger mt-2">View Campers</button>
+      <button type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3">View Campers</button>
       </div>
   </form>
+</div>
+</div>
 </div>
 
 {% endblock %}

@@ -86,35 +86,27 @@ def booking():
         return render_template("bookingform.html", customerlist = customerList, bookingdate=bookingDate, sitelist = siteList, bookingnights = bookingNights)    
 
   # booking/add 
-@app.route("/booking/add", methods=['POST'])
 def makebooking():
-    cursor, conn = getCursor()
-    if not cursor:
-        flash("Database connection could not be established.", "error")
-        return redirect(url_for('booking'))
-
+    site = request.form.get('site')
+    customer = request.form.get('customer')
+    booking_date = request.form.get('bookingdate')
+    occupancy = request.form.get('occupancy')
+    booking_nights = int(request.form.get('bookingnights'))
+    cursor = getCursor()
+    end_date = datetime.strptime(booking_date, '%Y-%m-%d') + timedelta(days=booking_nights)
     try:
-        site = request.form.get('site')
-        customer = request.form.get('customer')
-        booking_date = request.form.get('bookingdate')
-        occupancy = request.form.get('occupancy')
-        booking_nights = int(request.form.get('bookingnights'))
-        end_date = datetime.strptime(booking_date, '%Y-%m-%d') + timedelta(days=booking_nights)
-
-        cursor.execute("INSERT INTO bookings (site, customer, booking_date, end_date, occupancy) VALUES (%s, %s, %s, %s, %s)",
-                       (site, customer, booking_date, end_date.strftime('%Y-%m-%d'), occupancy))
-        conn.commit()
-        flash('Booking successfully added!', 'success')
+        cursor.execute("INSERT INTO bookings (site, customer, booking_date, end_date, occupancy) VALUES (%s, %s, %s, %s, %s)", (site, customer, booking_date, end_date.strftime('%Y-%m-%d'), occupancy))
+        flash('Booking successfully added!')
+        return redirect(url_for('booking'))
     except mysql.connector.Error as err:
-        flash(f'Failed to add booking: {err}', 'error')
-
-    return redirect(url_for('booking'))
-
+        flash(f'Failed to add booking: {err}')
+        return redirect(url_for('bookingconfirmation.html'))
 
 # search customers
 @app.route("/search/customers", methods=['GET', 'POST'])
 def search_customers():
     results = []
+    message = ""
     if request.method == 'POST':
         search_query = request.form.get('search', '').strip()
         if search_query:
@@ -123,45 +115,48 @@ def search_customers():
                 cursor.execute("SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", 
                                ('%' + search_query + '%', '%' + search_query + '%'))
                 results = cursor.fetchall()
-    return render_template("searchcustomers.html", results=results)
+                if not results:
+                    message = f"Sorry, there are no results for '{search_query}'."
+    return render_template("searchcustomers.html", results=results, message=message)
 
 
-
+  
 # add_edit_customer
 @app.route('/add_edit_customer', methods=['GET', 'POST'])
 def add_edit_customer():
-    customer_id = request.args.get('id')
+    customer_id = request.args.get('id', None)
     cursor, conn = getCursor()
-    if not cursor:
-        flash("Database connection could not be established.", "error")
-        return render_template("error_page.html")
-
-    customer = None
-    if customer_id:
-        cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
-        customer = cursor.fetchone()
 
     if request.method == 'POST':
         firstname = request.form.get('firstname')
         familyname = request.form.get('familyname')
         email = request.form.get('email')
         phone = request.form.get('phone')
-        if customer:
-            cursor.execute("UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s WHERE customer_id=%s",
-                           (firstname, familyname, email, phone, customer_id))
+
+        if customer_id:  # Update existing customer
+            cursor.execute("""
+                UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s 
+                WHERE customer_id=%s
+            """, (firstname, familyname, email, phone, customer_id))
             conn.commit()
             flash('Customer updated successfully!', 'success')
-        else:
-            cursor.execute("INSERT INTO customers (firstname, familyname, email, phone) VALUES (%s, %s, %s, %s)",
-                           (firstname, familyname, email, phone))
+        else:  # Add new customer
+            cursor.execute("""
+                INSERT INTO customers (firstname, familyname, email, phone) 
+                VALUES (%s, %s, %s, %s)
+            """, (firstname, familyname, email, phone))
             conn.commit()
             flash('Customer added successfully!', 'success')
-        return redirect(url_for('add_edit_customer', id=customer_id if customer else cursor.lastrowid))
+            return redirect(url_for('add_edit_customer'))  # Redirect to clear form
 
-    return render_template("addeditcustomer.html", customer=customer)
-
-
-
+    customer = None
+    if customer_id:  # Load customer for editing
+        cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
+        customer = cursor.fetchone()
+        return render_template("addeditcustomer.html", customer=customer, mode='Edit')
+    else:
+        return render_template("addeditcustomer.html", customer=customer, mode='Add')
+    return render_template("addeditcustomer.html", mode='Add' if not customer else 'Edit', customer=customer)
       
 # for error handling
 if __name__ == "__main__":

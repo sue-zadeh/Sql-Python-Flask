@@ -20,26 +20,30 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <!--Navbar items styled with bootstrap-->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto text-light">
+            <div class="collapse navbar-collapse pr-4" id="navbarNav">
+                <ul class="navbar-nav ms-auto text-light pr-4">
                     
                     <li class="nav-item pe-3 text-light">
                       <!--code in the double parantesis is for turning text black, when the page is open-->
                         <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'campers' else '' }}" href="{{ url_for('campers') }}">View Campers</a>
                     </li>
-                    <li class="nav-item pe-3 text-light">
+                    <!--<li class="nav-item pe-3 text-light">
                         <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'camper_list' else '' }}" href="{{ url_for('camper_list') }}">Camper List</a>
-                    </li>
+                    </li>-->
                     <li class="nav-item pe-3 text-light">
                         <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'booking' else '' }}"  href="{{ url_for('booking') }}">Make Booking</a>
                     </li>
                     <li class="nav-item pe-3 text-light">
-                        <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'search_customers' else '' }}" href="{{ url_for('search_customers') }}">Search Customers</a>
-                    </li>
-                    <li class="nav-item pe-3 text-light">
-                        <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'add_edit_customer' else '' }}" href="{{ url_for('add_edit_customer') }}">Add & Edit Customer</a>
-                    </li>
-                </ul>
+                        <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'search_customers' else '' }}" href="{{ url_for('search_customers') }}">Search & Edit Customers</a>
+                      </li>
+                        <li class="nav-item">
+                          {% if mode == 'Edit' %}
+                              <a class="nav-link fs-5" href="{{ url_for('add_edit_customer') }}">Edit Customer</a>
+                          {% else %}
+                              <a class="nav-link fs-5" href="{{ url_for('add_edit_customer') }}">Add Customer</a>
+                          {% endif %}
+                      </li>
+                 </ul>
             </div>
         </div>
     </nav>
