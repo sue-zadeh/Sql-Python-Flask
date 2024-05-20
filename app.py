@@ -124,8 +124,13 @@ def search_customers():
 # add_edit_customer
 @app.route('/add_edit_customer', methods=['GET', 'POST'])
 def add_edit_customer():
-    customer_id = request.args.get('id', None)
+    customer_id = request.args.get('id')
     cursor, conn = getCursor()
+    customer = None
+    if customer_id:
+        # Fetch customer data from the database
+        cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
+        customer = cursor.fetchone()
 
     if request.method == 'POST':
         firstname = request.form.get('firstname')
@@ -147,16 +152,10 @@ def add_edit_customer():
             """, (firstname, familyname, email, phone))
             conn.commit()
             flash('Customer added successfully!', 'success')
-            return redirect(url_for('add_edit_customer'))  # Redirect to clear form
+        return redirect(url_for('add_edit_customer', id=customer_id))
 
-    customer = None
-    if customer_id:  # Load customer for editing
-        cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
-        customer = cursor.fetchone()
-        return render_template("addeditcustomer.html", customer=customer, mode='Edit')
-    else:
-        return render_template("addeditcustomer.html", customer=customer, mode='Add')
-    return render_template("addeditcustomer.html", mode='Add' if not customer else 'Edit', customer=customer)
+    mode = 'Edit' if customer_id else 'Add'
+    return render_template("addeditcustomer.html", customer=customer, mode=mode)
       
 # for error handling
 if __name__ == "__main__":
