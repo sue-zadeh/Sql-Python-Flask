@@ -1,4 +1,4 @@
-blinker==1.4
+blinker==1.6.2
 click==8.1.7
 cryptography==3.4.8
 Jinja2==3.1.4

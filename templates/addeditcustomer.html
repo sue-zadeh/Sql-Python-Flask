@@ -6,40 +6,36 @@
       <div class="col-md-8">
           <h2 class="text-danger text-center mt-2">{{ mode }} Customer</h2>
 
-<!-- Flash messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class=" fs-5 text-center alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="fs-5 text-center alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-<!--form for adding customer-->
-  <form action="{{ url_for('add_edit_customer') }}" method="post" class="needs-validation novalidate mt-5">
-      <div class="mb-3">
-          <!--<label for="firstname" class="form-label text-light">First Name</label>-->
-          <input type="text" class="form-control " id="firstname" name="firstname" placeholder="First Name" value="{{ customer[1] if customer else '' }}" required>
+    <!--form for adding customer-->
+      <form action="{{ url_for('add_edit_customer') }}" method="post" class="needs-validation novalidate mt-5">
+          <input type="hidden" name="customer_id" value="{{ customer[0] if customer else '' }}">
+          <div class="mb-3">
+              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" value="{{ customer[1] if customer else '' }}" required>
+            </div>
+          <div class="mb-3">
+              <input type="text" class="form-control " id="familyname" name="familyname" placeholder="Family Name" value="{{ customer[2] if customer else '' }}" required>
+          </div>
+          <div class="mb-3">
+              <input type="email" class="form-control " id="email" name="email" placeholder="Email" value="{{ customer[3] if customer else '' }}" required>
+          </div>
+          <div class="mb-3">
+              <input type="text" class="form-control " id="phone" name="phone" placeholder="Phone" value="{{ customer[4] if customer else '' }}" required>
+          </div>
+          <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25">{{ 'Update' if customer else 'Add' }} Customer</button>
+          </div>
+        </form>
       </div>
-      <div class="mb-3">
-         <!-- <label for="familyname" class="form-label text-light">Family Name</label>-->
-          <input type="text" class="form-control " id="familyname" name="familyname" placeholder="Family Name" value="{{ customer[2] if customer else '' }}" required>
-      </div>
-      <div class="mb-3">
-         <!-- <label for="email" class="form-label text-light">Email</label>-->
-          <input type="email" class="form-control " id="email" name="email" placeholder="Email" value="{{ customer[3] if customer else '' }}" required>
-      </div>
-      <div class="mb-3">
-          <!--<label for="phone" class="form-label text-light">Phone</label>-->
-          <input type="text" class="form-control " id="phone"  name="phone" placeholder="Phone" value="{{ customer[4] if customer else '' }}" required>
-      </div>
-      <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25">{{ 'Update' if customer else 'Add' }} Customer</button>
-      </div>
+    </div>
+    </div>
 
-    </form>
-  </div>
-</div>
-</div>
-  
 {% endblock %}

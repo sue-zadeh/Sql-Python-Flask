@@ -122,13 +122,17 @@ def search_customers():
 
   
 # add_edit_customer
+# app.py
+
+# app.py
+
 @app.route('/add_edit_customer', methods=['GET', 'POST'])
 def add_edit_customer():
-    customer_id = request.args.get('id')
+    customer_id = request.args.get('id') or request.form.get('customer_id')
     cursor, conn = getCursor()
     customer = None
     if customer_id:
-        # Fetch customer data from the database
+        # Fetch customer data from the database if id is provided
         cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
         customer = cursor.fetchone()
 
@@ -146,16 +150,23 @@ def add_edit_customer():
             conn.commit()
             flash('Customer updated successfully!', 'success')
         else:  # Add new customer
-            cursor.execute("""
-                INSERT INTO customers (firstname, familyname, email, phone) 
-                VALUES (%s, %s, %s, %s)
-            """, (firstname, familyname, email, phone))
-            conn.commit()
-            flash('Customer added successfully!', 'success')
+            cursor.execute("SELECT * FROM customers WHERE familyname = %s", (familyname,))
+            existing_customer = cursor.fetchone()
+            if existing_customer:
+                flash('A customer with this family name already exists!', 'danger')
+            else:
+                cursor.execute("""
+                    INSERT INTO customers (firstname, familyname, email, phone) 
+                    VALUES (%s, %s, %s, %s)
+                """, (firstname, familyname, email, phone))
+                conn.commit()
+                flash('Customer added successfully!', 'success')
         return redirect(url_for('add_edit_customer', id=customer_id))
 
     mode = 'Edit' if customer_id else 'Add'
     return render_template("addeditcustomer.html", customer=customer, mode=mode)
+
+
       
 # for error handling
 if __name__ == "__main__":
