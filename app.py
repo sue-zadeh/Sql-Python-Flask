@@ -122,9 +122,6 @@ def search_customers():
 
   
 # add_edit_customer
-# app.py
-
-# app.py
 
 @app.route('/add_edit_customer', methods=['GET', 'POST'])
 def add_edit_customer():
