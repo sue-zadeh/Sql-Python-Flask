@@ -119,10 +119,7 @@ def search_customers():
                     message = f"Sorry, there are no results for '{search_query}'."
     return render_template("searchcustomers.html", results=results, message=message)
 
-
-  
 # add_edit_customer
-
 @app.route('/add_edit_customer', methods=['GET', 'POST'])
 def add_edit_customer():
     customer_id = request.args.get('id') or request.form.get('customer_id')
@@ -149,6 +146,7 @@ def add_edit_customer():
                 """, (firstname, familyname, email, phone, customer_id))
                 conn.commit()
                 flash('Customer updated successfully!', 'success')
+                return redirect(url_for('add_edit_customer', id=customer_id))
         else:  # Add new customer
             cursor.execute("SELECT * FROM customers WHERE familyname = %s", (familyname,))
             existing_customer = cursor.fetchone()
