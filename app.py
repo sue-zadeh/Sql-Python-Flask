@@ -140,12 +140,15 @@ def add_edit_customer():
         phone = request.form.get('phone')
 
         if customer_id:  # Update existing customer
-            cursor.execute("""
-                UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s 
-                WHERE customer_id=%s
-            """, (firstname, familyname, email, phone, customer_id))
-            conn.commit()
-            flash('Customer updated successfully!', 'success')
+            if customer and (firstname, familyname, email, phone) == (customer[1], customer[2], customer[3], customer[4]):
+                flash('Customer information is the same, no changes.', 'info')
+            else:
+                cursor.execute("""
+                    UPDATE customers SET firstname=%s, familyname=%s, email=%s, phone=%s 
+                    WHERE customer_id=%s
+                """, (firstname, familyname, email, phone, customer_id))
+                conn.commit()
+                flash('Customer updated successfully!', 'success')
         else:  # Add new customer
             cursor.execute("SELECT * FROM customers WHERE familyname = %s", (familyname,))
             existing_customer = cursor.fetchone()
@@ -163,8 +166,6 @@ def add_edit_customer():
     mode = 'Edit' if customer_id else 'Add'
     return render_template("addeditcustomer.html", customer=customer, mode=mode)
 
-
-      
 # for error handling
 if __name__ == "__main__":
     app.run(debug=True)
