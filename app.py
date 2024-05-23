@@ -146,7 +146,7 @@ def add_edit_customer():
                 """, (firstname, familyname, email, phone, customer_id))
                 conn.commit()
                 flash('Customer updated successfully!', 'success')
-                return redirect(url_for('add_edit_customer', id=customer_id))
+                return redirect(url_for('search_customers'))
         else:  # Add new customer
             cursor.execute("SELECT * FROM customers WHERE familyname = %s", (familyname,))
             existing_customer = cursor.fetchone()
