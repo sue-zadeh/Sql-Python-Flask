@@ -68,6 +68,45 @@ def camper_list():
     return render_template("camperlist.html", camperlist=[], camp_date=None)
 
 # Booking
+@app.route("/booking", methods=['GET', 'POST'])
+def booking():
+    if request.method == "GET":
+        return render_template("datepicker.html", currentdate=datetime.now().date())
+    else:
+        bookingNights = request.form.get('bookingnights')
+        bookingDate = request.form.get('bookingdate')
+        occupancy = request.form.get('occupancy')
+        firstNight = date.fromisoformat(bookingDate)
+        
+        if firstNight < datetime.now().date():
+            flash('Cannot book a past date.', 'danger')
+            return redirect(url_for('booking'))
+        
+        lastNight = firstNight + timedelta(days=int(bookingNights))
+        cursor, _ = getCursor()
+        cursor.execute("SELECT * FROM customers;")
+        customerList = cursor.fetchall()
+        cursor.execute("""
+            SELECT site_id, occupancy FROM sites 
+            WHERE occupancy >= %s 
+            AND site_id NOT IN (
+                SELECT site FROM bookings 
+                WHERE booking_date BETWEEN %s AND %s
+            );
+        """, (occupancy, firstNight, lastNight))
+        siteList = cursor.fetchall()
+
+        return render_template(
+            "bookingform.html", 
+            customerlist=customerList, 
+            bookingdate=bookingDate, 
+            sitelist=siteList, 
+            bookingnights=bookingNights, 
+            occupancy=occupancy,
+            bookingResults=[],
+            currentdate=datetime.now().date()
+        )
+
 @app.route("/booking/add", methods=['POST'])
 def makebooking():
     site = request.form.get('site')
