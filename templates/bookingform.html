@@ -1,30 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- code in here to display a list of books-->
-<div class="container-zone mt-5 justify-content-center mx-5">
-<h2 class='text-danger text-center'> Make a booking</h2>
-
-<p>
-<form action="/booking/add" method="POST" class="m-5">
-<label for="bookingdate" class="text-light">Start Date to be booked</label>
-<input type="text" enabled="false" name="bookingdate" value="{{bookingdate}}"/>
-<br>
-<input type="hidden" name="bookingnights" value="{{bookingnights}}"/>
-<input type="hidden" name="occupancy" value="{{occupancy}}"/>
-<label for="customer" class="text-light">Customer to book for</label>
-<select name="customer">
-    {% for customer in customerlist %} 
-    <option value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
-    {% endfor %}
-</select><br>
-<label for="site" class="text-light">Site to select</label><br>
-<!-- radio button loop -->
-{% for site in sitelist %}
-<input type="radio" name="site" value="{{site[0]}}"> {{site[0]}} - {{site[1]}} occupancy </input><br>
-{% endfor %}
-
-<br>
-<input type="submit"/>
-</form>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+   <div class="col-md-8"> 
+    <h2 class="text-danger text-center"> Make a Booking</h2>
+        <form action="{{ url_for('makebooking') }}" method="POST" class="m-5">
+      <div class="mb-3">
+        <label for="bookingdate" class="form-label text-light">Start Date to be booked</label>
+        <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{{bookingdate}}" required/>
+      </div>
+        <br>
+        <div>
+        <input type="hidden" name="bookingnights" value="{{bookingnights}}"/>
+        <input type="hidden" name="occupancy" value="{{occupancy}}"/>
+      </div>
+      <div class="mb-3">
+        <label for="customer" class="form-label text-light">Customer to book for</label>
+        <select name="customer" class="form-control">
+          {% for customer in customerlist %} 
+          <option class="form-control" value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
+          {% endfor %}
+        </select><br>
+      </div>
+      <div class="mb-3">
+        <label for="site" class="form-label text-light">Site to select</label><br>
+        <!-- radio button loop -->
+          <div class="form-check">
+        {% for site in sitelist %}
+          <label class="form-check-label text-light" for="flexRadioDefault sites">
+            {{site[0]}}
+          </label>
+          <input class="form-check-input text-light "type="radio" name=" flexRadioDefault site"  value="{{site[0]}}" required> {{site[1]}} - Occupancy: {{site[2]}} </input><br>
+          {% endfor %}
+        </div>
+      </div>
+        <br>
+        <div class="d-flex justify-content-center">
+            <input type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3" value="Submit"/>
+        </div>
+    </form> 
+  </div>
 </div>
+</div>
+    <!-- Display booking results -->
+    {% if bookingResults %}
+    <div class="container mt-5">
+        <h3 class="text-danger text-center">Booking Results</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th class="text-light text-center">First Name</th>
+                    <th class="text-light text-center">Family Name</th>
+                    <th class="text-light text-center">Site</th>
+                    <th class="text-light text-center">Booking Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookingResults %}
+                <tr>
+                    <td class="text-light text-center">{{ booking.firstname }}</td>
+                    <td class="text-light text-center">{{ booking.familyname }}</td>
+                    <td class="text-light text-center">{{ booking.site_id }}</td>
+                    <td class="text-light text-center">{{ booking.booking_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
 {% endblock %}
