@@ -27,10 +27,10 @@
         <!-- radio button loop -->
           <div class="form-check">
         {% for site in sitelist %}
-          <label class="form-check-label text-light" for="flexRadioDefault sites">
+          <label class="form-check-label text-light mb-1" for="flexRadioDefault sites">
             {{site[0]}}
           </label>
-          <input class="form-check-input text-light "type="radio" name=" flexRadioDefault site"  value="{{site[0]}}" required> {{site[1]}} - Occupancy: {{site[2]}} </input><br>
+          <input class="form-check-input text-light mb-1 "type="radio" name=" flexRadioDefault site"  value="{{site[0]}}" required> {{site[1]}} - Occupancy: {{site[2]}} </input><br>
           {% endfor %}
         </div>
       </div>
