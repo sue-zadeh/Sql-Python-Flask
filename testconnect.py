@@ -1,11 +1,10 @@
-# testconnection.py
 import mysql.connector
 
 try:
     connection = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="123Suezx.",  # Ensure this matches the password you've confirmed works
+        passwd="123Suezx.",  
         database="scg"
     )
     if connection.is_connected():

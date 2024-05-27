@@ -68,52 +68,6 @@ def camper_list():
     return render_template("camperlist.html", camperlist=[], camp_date=None)
 
 # Booking
-@app.route("/booking", methods=['GET', 'POST'])
-def booking():
-    if request.method == "GET":
-        return render_template("datepicker.html", currentdate=datetime.now().date())
-    else:
-        bookingNights = request.form.get('bookingnights')
-        bookingDate = request.form.get('bookingdate')
-        occupancy = request.form.get('occupancy')
-        firstNight = date.fromisoformat(bookingDate)
-        
-        if firstNight < datetime.now().date():
-            flash('Cannot book a past date.', 'danger')
-            return redirect(url_for('booking'))
-        
-        lastNight = firstNight + timedelta(days=int(bookingNights))
-        cursor, _ = getCursor()
-        cursor.execute("SELECT * FROM customers;")
-        customerList = cursor.fetchall()
-        cursor.execute("""
-            SELECT site_id, occupancy FROM sites 
-            WHERE occupancy >= %s 
-            AND site_id NOT IN (
-                SELECT site FROM bookings 
-                WHERE booking_date BETWEEN %s AND %s
-            );
-        """, (occupancy, firstNight, lastNight))
-        siteList = cursor.fetchall()
-
-        cursor.execute("""
-            SELECT customers.firstname, customers.familyname, sites.site_id, bookings.booking_date 
-            FROM bookings 
-            JOIN sites ON bookings.site = sites.site_id 
-            JOIN customers ON bookings.customer = customers.customer_id 
-            WHERE bookings.booking_date = %s;
-        """, (firstNight,))
-        bookingResults = cursor.fetchall()
-
-        return render_template(
-            "bookingform.html", 
-            customerlist=customerList, 
-            bookingdate=bookingDate, 
-            sitelist=siteList, 
-            bookingnights=bookingNights, 
-            bookingResults=bookingResults
-        )
-#add booking
 @app.route("/booking/add", methods=['POST'])
 def makebooking():
     site = request.form.get('site')
@@ -130,30 +84,24 @@ def makebooking():
     if existing_booking:
         flash('The site is already booked for the selected date.', 'danger')
     else:
-     bookingresults = []
-     message = ""
-     if request.method == 'POST':
-       booking_query = request.form.get('booking', '').strip()  
-    if booking_query:
-       cursor, _ = getCursor()   
-    try:
-      if cursor:
-            cursor.execute("INSERT INTO bookings (site, customer, booking_date, end_date, occupancy) VALUES (%s, %s, %s, %s, %s)", (site, customer, booking_date, end_date.strftime('%Y-%m-%d'), occupancy))
+        try:
+            for i in range(booking_nights):
+                current_booking_date = datetime.strptime(booking_date, '%Y-%m-%d') + timedelta(days=i)
+                cursor.execute("INSERT INTO bookings (site, customer, booking_date, occupancy) VALUES (%s, %s, %s, %s)", 
+                               (site, customer, current_booking_date.strftime('%Y-%m-%d'), occupancy))
             conn.commit()
-            bookingresults = cursor.fetchall()
-            message = f"Sorry, there site already booked for '{booking_query}'."
-            flash(f'Booking successfully added! {customer} booked for site {site} starting from {booking_date} for {booking_nights} nights, for {occupancy} people.', 'success')
-    except mysql.connector.Error as err:
-            flash(f'Failed to add booking: {err}')
+            flash(f'Booking successfully added!', 'success')
+        except mysql.connector.Error as err:
+            flash(f'Failed to add booking: {err}', 'danger')
     
     # Re-fetch booking results to display on the same page
     cursor.execute("""
-        SELECT customers.firstname, customers.familyname, sites.site_id, bookings.booking_date 
+        SELECT customers.firstname, customers.familyname, bookings.occupancy, sites.site_id, bookings.booking_date, %s as booking_nights 
         FROM bookings 
         JOIN sites ON bookings.site = sites.site_id 
         JOIN customers ON bookings.customer = customers.customer_id 
-        WHERE bookings.booking_date = %s;
-    """, (booking_date,))
+        WHERE bookings.booking_date BETWEEN %s AND %s;
+    """, (booking_nights, booking_date, end_date))
     bookingResults = cursor.fetchall()
     cursor.execute("SELECT * FROM customers;")
     customerList = cursor.fetchall()
@@ -169,15 +117,14 @@ def makebooking():
 
     return render_template(
         "bookingform.html",
-        booking_query=booking_query,
-        message=message, 
         customerlist=customerList, 
         bookingdate=booking_date, 
         sitelist=siteList, 
         bookingnights=booking_nights, 
-        bookingResults=bookingResults
+        occupancy=occupancy,
+        bookingResults=bookingResults,
+        currentdate=datetime.now().date()
     )
-
 
 # search customers
 @app.route("/search/customers", methods=['GET', 'POST'])
