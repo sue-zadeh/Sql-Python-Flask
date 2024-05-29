@@ -4,13 +4,12 @@
   <div class="row justify-content-center">
    <div class="col-md-8"> 
     <h2 class="text-danger text-center"> Make a Booking</h2>
-    <form action="{{ url_for('makebooking') }}" method="POST" class="m-5">
+        <form action="{{ url_for('makebooking') }}" method="POST" class="m-5">
       <div class="mb-3">
         <label for="bookingdate" class="form-label text-light">Start Date to be booked</label>
         <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{{bookingdate}}" required/>
       </div>
-      <br>
-      <div>
+       <div>
         <input type="hidden" name="bookingnights" value="{{bookingnights}}"/>
         <input type="hidden" name="occupancy" value="{{occupancy}}"/>
       </div>
@@ -20,59 +19,35 @@
           {% for customer in customerlist %} 
           <option class="form-control" value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
           {% endfor %}
-        </select><br>
+        </select>
       </div>
       <div class="mb-3">
         <label for="site" class="form-label text-light">Site to select</label><br>
-        <!-- radio button loop -->
-          <div class="form-check">
-        {% for site in sitelist %}
-          <label class="form-check-label text-light mb-1" for="flexRadioDefault sites">
-            {{site[0]}}
-          </label>
-          <input class="form-check-input text-light mb-1 "type="radio" name=" flexRadioDefault site"  value="{{site[0]}}" required> {{site[1]}} - Occupancy: {{site[2]}} </input><br>
-          {% endfor %}
-        </div>
+ <!-- radio button loop -->
+  <div class="container">
+  <div class="row">
+    {% for site in sitelist %}
+    <div class="col-md-4">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="site" id="site{{ loop.index }}" value="{{ site[0] }}" required>
+        <label class="form-check-label text-light" for="site{{ loop.index }}">
+          {{ site[0] }} - Occupancy: {{ site[1] }}
+        </label>
       </div>
-        <br>
-        <div class="d-flex justify-content-center">
-            <input type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3" value="Submit"/>
-        </div>
-    </form>
-
+    </div>
+    <!-- show sites list in 3 lines -->
+    {% if loop.index0 % 3 == 2 %}
+    <div class="w-100"></div> 
+    {% endif %}
+    {% endfor %}
   </div>
 </div>
-</div>
-<!-- Display booking results -->
-{% if bookingResults %}
-<div class="container mt-5">
-  <h3 class="text-danger text-center m-2">Booking Results</h3>
-  <div class="container-zone m-5 justify-content-center">
-    <table class="table table-dark table-striped">
-      <thead>
-        <tr>
-          <th class="text-light text-center">First Name</th>
-          <th class="text-light text-center">Family Name</th>
-          <th class="text-light text-center">Occupants</th>
-          <th class="text-light text-center">Site</th>
-          <th class="text-light text-center">Start Date</th>
-          <th class="text-light text-center">Booking Nights</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for booking in bookingResults %}
-        <tr>
-          <td class="text-light text-center">{{ booking[0] }}</td>
-          <td class="text-light text-center">{{ booking[1] }}</td>
-          <td class="text-light text-center">{{ booking[2] }}</td>
-          <td class="text-light text-center">{{ booking[3] }}</td>
-          <td class="text-light text-center">{{ booking[4] }}</td>
-          <td class="text-light text-center">{{ booking[5] }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+      <div class="d-flex justify-content-center">
+       <input type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3" value="Submit"/>
+     </div>
+    </div>
+   </form> 
   </div>
-</div>
+</div>  
 {% endif %}
 {% endblock %}
