@@ -29,7 +29,7 @@ def getCursor():
                 autocommit=True
             )
             print(f"Connected to MySQL Server: {connection.get_server_info()}")
-        return connection.cursor(dictionary=True), connection
+        return connection.cursor(buffered=True), connection
     except mysql.connector.Error as e:
         print("Error while connecting to MySQL", e)
         return None, None
@@ -72,8 +72,9 @@ def camper_list():
 def list_bookings():
     cursor, conn = getCursor()
     cursor.execute("""
-        SELECT bookings.booking_id, customers.firstname, customers.familyname, sites.site_id,
-               bookings.booking_date, bookings.occupancy
+        SELECT * FROM bookingsWHERE booking_id LIKE %S, booking_date LIKE %S, booking_nights LIKE %S, occupancy LIKE %S, sites.site_id,
+        SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", 
+        SELECT * from sites WHERE site_id LIKE %s, site_name LIKE %s      
         FROM bookings
         JOIN sites ON bookings.site = sites.site_id
         JOIN customers ON bookings.customer = customers.customer_id
@@ -197,7 +198,6 @@ def search_customers():
                 cursor.execute("SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", 
                                ('%' + search_query + '%', '%' + search_query + '%'))
                 results = cursor.fetchall()
-                # print(results)
                 if not results:
                     message = f"Sorry, there are no results for '{search_query}'."
     return render_template("searchcustomers.html", results=results, message=message)
