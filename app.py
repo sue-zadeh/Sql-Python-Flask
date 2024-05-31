@@ -46,15 +46,19 @@ def campers():
     if camp_date:
         cursor, _ = getCursor()
         cursor.execute("""
-            SELECT bookings.booking_id, customers.firstname, customers.familyname, sites.site_id, bookings.booking_date, bookings.occupancy, bookings.nights
+            SELECT bookings.booking_id, customers.firstname, customers.familyname, bookings.occupancy, sites.site_id, bookings.booking_date, bookings.nights
             FROM bookings 
             JOIN sites ON bookings.site = sites.site_id 
             JOIN customers ON bookings.customer = customers.customer_id 
             WHERE bookings.booking_date = %s;
         """, (camp_date,))
         camper_list = cursor.fetchall()
-        return render_template("datepickercamper.html", camperlist=camper_list, camp_date=camp_date)
-    return render_template("datepickercamper.html", camperlist=[], camp_date=None)
+        if camper_list:
+            return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date)
+        else:
+            message = f"No campers found for the selected date: {camp_date}."
+            return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message)
+    return render_template("datepickercamper.html", camperlist=[], campdate=None)
 
 #make booking--forms
 @app.route("/booking", methods=['GET', 'POST'])
