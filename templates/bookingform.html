@@ -21,6 +21,7 @@
         </div>
         <div class="mb-3">
           <label for="site" class="form-label text-light">Site to select</label>
+           <!-- radio button loop -->
           <div class="container">
             <div class="row">
               {% for site in sitelist %}
@@ -30,8 +31,9 @@
                   <label class="form-check-label text-light" for="site{{ loop.index }}">
                     {{ site[0] }} - Occupancy: {{ site[1] }}
                   </label>
-                </div>
-              </div>
+            </div>
+           </div>
+            <!-- show sites list in 3 column -->
               {% if loop.index0 % 3 == 2 %}
               <div class="w-100"></div>
               {% endif %}

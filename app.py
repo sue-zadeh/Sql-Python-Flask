@@ -67,7 +67,7 @@ def booking():
         occupancy = request.form.get('occupancy')
         firstNight = date.fromisoformat(bookingDate)
         lastNight = firstNight + timedelta(days=int(bookingNights))
-        
+
         cursor, _ = getCursor()
         cursor.execute("SELECT * FROM customers;")
         customerList = cursor.fetchall()
@@ -85,7 +85,7 @@ def make_booking():
     site = request.form.get('site')
     
     cursor, conn = getCursor()
-    cursor.execute("INSERT INTO bookings (booking_date, booking_nights, occupancy, customer, site) VALUES (%s, %s, %s, %s, %s);",
+    cursor.execute("INSERT INTO bookings (booking_date, nights, occupancy, customer, site) VALUES (%s, %s, %s, %s, %s);",
                    (bookingDate, bookingNights, occupancy, customer, site))
     conn.commit()
     flash('Booking added successfully!', 'success')
@@ -95,7 +95,7 @@ def make_booking():
 def booking_list():
     cursor, _ = getCursor()
     cursor.execute("""
-        SELECT b.booking_id, c.firstname, c.familyname, b.occupancy, b.site, b.booking_date, b.booking_nights
+        SELECT b.booking_id, c.firstname, c.familyname, b.occupancy, b.site, b.booking_date, b.nights
         FROM bookings b
         JOIN customers c ON b.customer = c.customer_id;
     """)
@@ -125,7 +125,7 @@ def edit_booking(booking_id):
         site = request.form.get('site')
 
         cursor.execute("""
-            UPDATE bookings SET booking_date=%s, booking_nights=%s, occupancy=%s, customer=%s, site=%s
+            UPDATE bookings SET booking_date=%s, nights=%s, occupancy=%s, customer=%s, site=%s
             WHERE booking_id=%s;
         """, (bookingDate, bookingNights, occupancy, customer, site, booking_id))
         conn.commit()
