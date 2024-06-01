@@ -53,6 +53,7 @@ def campers():
             WHERE bookings.booking_date = %s;
         """, (camp_date,))
         camper_list = cursor.fetchall()
+        print(f"Fetched campers for {camp_date}: {camper_list}")  # Debugging statement
         if camper_list:
             return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date)
         else:
@@ -60,7 +61,7 @@ def campers():
             return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message)
     return render_template("datepickercamper.html", camperlist=[], campdate=None)
 
-#make booking--forms
+#make booking--first page
 @app.route("/booking", methods=['GET', 'POST'])
 def booking():
     if request.method == "GET":
@@ -78,8 +79,8 @@ def booking():
         cursor.execute("SELECT * FROM sites WHERE occupancy >= %s AND site_id NOT IN (SELECT site FROM bookings WHERE booking_date BETWEEN %s AND %s);",
                        (occupancy, firstNight, lastNight))
         siteList = cursor.fetchall()
-        return render_template("bookingform.html", customerlist=customerList, bookingdate=bookingDate, sitelist=siteList, bookingnights=bookingNights)
-
+        return render_template("bookingform.html", customerlist=customerList, bookingdate=bookingDate, sitelist=siteList, bookingnights=bookingNights, occupancy=occupancy, form_title="Make a Booking", action="add", booking_id=None, selected_customer=None, selected_site=None)
+#make booking--second page
 @app.route("/booking/add", methods=['POST'])
 def make_booking():
     bookingDate = request.form.get('bookingdate')
@@ -94,7 +95,7 @@ def make_booking():
     conn.commit()
     flash('Booking added successfully!', 'success')
     return redirect(url_for('booking_list'))
-
+# booking list -show result of booking
 @app.route("/booking_list", methods=['GET'])
 def booking_list():
     cursor, _ = getCursor()
@@ -105,7 +106,7 @@ def booking_list():
     """)
     bookings = cursor.fetchall()
     return render_template("bookinglistedit.html", bookings=bookings)
-
+# edit booking
 @app.route("/booking/edit/<int:booking_id>", methods=['GET', 'POST'])
 def edit_booking(booking_id):
     cursor, conn = getCursor()
@@ -120,7 +121,7 @@ def edit_booking(booking_id):
         customerList = cursor.fetchall()
         cursor.execute("SELECT * FROM sites;")
         siteList = cursor.fetchall()
-        return render_template("bookingform.html", booking=booking, customerlist=customerList, sitelist=siteList)
+        return render_template("bookingform.html", booking=booking, customerlist=customerList, sitelist=siteList, bookingdate=booking[3], bookingnights=booking[5], occupancy=booking[2], form_title="Edit Booking", action="edit", booking_id=booking_id, selected_customer=booking[1], selected_site=booking[4])
     else:
         bookingDate = request.form.get('bookingdate')
         bookingNights = request.form.get('bookingnights')
@@ -135,6 +136,15 @@ def edit_booking(booking_id):
         conn.commit()
         flash('Booking updated successfully!', 'success')
         return redirect(url_for('booking_list'))
+# delet booking
+@app.route("/booking/delete/<int:booking_id>", methods=['POST'])
+def delete_booking(booking_id):
+    cursor, conn = getCursor()
+    cursor.execute("DELETE FROM bookings WHERE booking_id = %s;", (booking_id,))
+    conn.commit()
+    flash('Booking deleted successfully!', 'success')
+    return redirect(url_for('booking_list'))
+
   
 # search customers
 @app.route("/search/customers", methods=['GET', 'POST'])
@@ -146,7 +156,7 @@ def search_customers():
         if search_query:
             cursor, _ = getCursor()
             if cursor:
-                cursor.execute("SELECT * FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", 
+                cursor.execute("SELECT customer_id, firstname, familyname, email, phone FROM customers WHERE firstname LIKE %s OR familyname LIKE %s", 
                                ('%' + search_query + '%', '%' + search_query + '%'))
                 results = cursor.fetchall()
                 if not results:
@@ -160,11 +170,12 @@ def add_edit_customer():
     cursor, conn = getCursor()
     customer = None
     if customer_id:
-        # Fetch customer data from the database if id is provided
+        # Fetch customer data from the database 
         cursor.execute("SELECT * FROM customers WHERE customer_id = %s", (customer_id,))
         customer = cursor.fetchone()
 
     if request.method == 'POST':
+        customer_id = request.form.get('customer_id') 
         firstname = request.form.get('firstname')
         familyname = request.form.get('familyname')
         email = request.form.get('email')

@@ -3,19 +3,23 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
+      {% if edit_mode %}
+      <h2 class="text-danger text-center"> Edit Booking</h2>
+      {% else %}
       <h2 class="text-danger text-center"> Make a Booking</h2>
-      <form action="{{ url_for('make_booking') }}" method="POST" class="m-5">
+      {% endif %}
+      <form action="{% if edit_mode %}{{ url_for('edit_booking', booking_id=booking.booking_id) }}{% else %}{{ url_for('make_booking') }}{% endif %}" method="POST" class="m-5">
         <div class="mb-3">
           <label for="bookingdate" class="form-label text-light">Start Date to be booked</label>
-          <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{{bookingdate}}" required>
+          <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{% if edit_mode %}{{ booking.booking_date }}{% else %}{{bookingdate}}{% endif %}" required>
         </div>
-        <input type="hidden" name="bookingnights" value="{{bookingnights}}">
-        <input type="hidden" name="occupancy" value="{{occupancy}}">
+        <input type="hidden" name="bookingnights" value="{% if edit_mode %}{{ booking.booking_nights }}{% else %}{{bookingnights}}{% endif %}">
+        <input type="hidden" name="occupancy" value="{% if edit_mode %}{{ booking.occupancy }}{% else %}{{occupancy}}{% endif %}">
         <div class="mb-3">
           <label for="customer" class="form-label text-light">Customer to book for</label>
           <select name="customer" class="form-control">
             {% for customer in customerlist %}
-            <option class="form-control" value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
+            <option class="form-control" value="{{customer[0]}}" {% if edit_mode and customer[0] == booking.customer %}selected{% endif %}>{{customer[1]}} {{customer[2]}}</option>
             {% endfor %}
           </select>
         </div>
@@ -27,7 +31,7 @@
               {% for site in sitelist %}
               <div class="col-md-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="site" id="site{{ loop.index }}" value="{{ site[0] }}" required>
+                  <input class="form-check-input" type="radio" name="site" id="site{{ loop.index }}" value="{{ site[0] }}" {% if edit_mode and site[0] == booking.site %}checked{% endif %} required>
                   <label class="form-check-label text-light" for="site{{ loop.index }}">
                     {{ site[0] }} - Occupancy: {{ site[1] }}
                   </label>
