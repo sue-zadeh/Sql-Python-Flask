@@ -46,9 +46,9 @@ def campers():
     if camp_date:
         cursor, _ = getCursor()
         cursor.execute("""
-            SELECT bookings.booking_id, customers.firstname, customers.familyname, bookings.occupancy, sites.site_id, bookings.booking_date, bookings.nights
+            SELECT bookings.booking_id, customers.firstname, customers.familyname, bookings.occupancy, COALESCE(sites.site_id, 'N/A') AS site_id, bookings.booking_date, bookings.nights
             FROM bookings 
-            JOIN sites ON bookings.site = sites.site_id 
+            LEFT JOIN sites ON bookings.site = sites.site_id 
             JOIN customers ON bookings.customer = customers.customer_id 
             WHERE bookings.booking_date = %s;
         """, (camp_date,))
