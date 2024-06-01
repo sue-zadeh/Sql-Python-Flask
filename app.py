@@ -79,7 +79,10 @@ def booking():
         cursor.execute("SELECT * FROM sites WHERE occupancy >= %s AND site_id NOT IN (SELECT site FROM bookings WHERE booking_date BETWEEN %s AND %s);",
                        (occupancy, firstNight, lastNight))
         siteList = cursor.fetchall()
-        return render_template("bookingform.html", customerlist=customerList, bookingdate=bookingDate, sitelist=siteList, bookingnights=bookingNights, occupancy=occupancy, form_title="Make a Booking", action="add", booking_id=None, selected_customer=None, selected_site=None)
+        return render_template("bookingform.html",
+                      customerlist=customerList, bookingdate=bookingDate, sitelist=siteList, bookingnights=
+                      bookingNights, occupancy=occupancy, form_title="Make a Booking", action="add", booking_id=
+                      None, selected_customer=None, selected_site=None)
 #make booking--second page
 @app.route("/booking/add", methods=['POST'])
 def make_booking():
@@ -95,7 +98,8 @@ def make_booking():
     conn.commit()
     flash('Booking added successfully!', 'success')
     return redirect(url_for('booking_list'))
-# booking list -show result of booking
+  
+# booking list -show booking result 
 @app.route("/booking_list", methods=['GET'])
 def booking_list():
     cursor, _ = getCursor()
@@ -137,14 +141,23 @@ def edit_booking(booking_id):
         flash('Booking updated successfully!', 'success')
         return redirect(url_for('booking_list'))
 # delet booking
-@app.route("/booking/delete/<int:booking_id>", methods=['POST'])
-def delete_booking(booking_id):
+@app.route("/booking/delete/<int:booking_id>", methods=['GET', 'POST'])
+def confirm_delete_booking(booking_id):
     cursor, conn = getCursor()
-    cursor.execute("DELETE FROM bookings WHERE booking_id = %s;", (booking_id,))
-    conn.commit()
-    flash('Booking deleted successfully!', 'success')
-    return redirect(url_for('booking_list'))
-
+    if request.method == 'POST':
+        cursor.execute("DELETE FROM bookings WHERE booking_id = %s;", (booking_id,))
+        conn.commit()
+        flash('Booking deleted successfully!', 'success')
+        return redirect(url_for('booking_list'))
+    else:
+        cursor.execute("""
+            SELECT b.booking_id, c.firstname, c.familyname, b.booking_date
+            FROM bookings b
+            JOIN customers c ON b.customer = c.customer_id
+            WHERE b.booking_id = %s;
+        """, (booking_id,))
+        booking = cursor.fetchone()
+        return render_template("bookinglistedit.html", booking_to_delete=booking)
   
 # search customers
 @app.route("/search/customers", methods=['GET', 'POST'])

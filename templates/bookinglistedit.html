@@ -37,5 +37,15 @@
       {% endfor %}
     </tbody>
   </table>
+  {% if booking_to_delete %}
+    <div class="container mt-5">
+        <h2 class="text-danger text-center">Confirm Deletion</h2>
+        <h5 class="text-light text-center">Are you sure you want to delete the booking for {{ booking_to_delete[1] }} {{ booking_to_delete[2] }} on {{ booking_to_delete[3] }}?</h5>
+        <form action="{{ url_for('confirm_delete_booking', booking_id=booking_to_delete[0]) }}" method="POST" class="text-center">
+            <button type="submit" class="btn btn-danger">Yes</button>
+            <a href="{{ url_for('booking_list') }}" class="btn btn-success">No</a>
+        </form>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
