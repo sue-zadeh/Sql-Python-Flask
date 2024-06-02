@@ -53,7 +53,7 @@ def campers():
             WHERE bookings.booking_date = %s;
         """, (camp_date,))
         camper_list = cursor.fetchall()
-        print(f"Fetched campers for {camp_date}: {camper_list}")  # Debugging statement
+       # print(f"Fetched campers for {camp_date}: {camper_list}")  # Debugging statement
         if camper_list:
             return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date)
         else:
@@ -109,7 +109,16 @@ def booking_list():
         JOIN customers c ON b.customer = c.customer_id;
     """)
     bookings = cursor.fetchall()
-    return render_template("bookinglistedit.html", bookings=bookings)
+    booking_to_delete = request.args.get('booking_to_delete', None)
+    if booking_to_delete:
+       cursor.execute("""
+        SELECT b.booking_id, c.firstname, c.familyname, b.booking_date 
+            FROM bookings b 
+            JOIN customers c ON b.customer = c.customer_id 
+            WHERE b.booking_id = %s;
+        """, (booking_to_delete,))
+       booking_to_delete = cursor.fetchone()
+    return render_template("bookinglistedit.html", bookings=bookings, booking_to_delete=booking_to_delete )
 # edit booking
 @app.route("/booking/edit/<int:booking_id>", methods=['GET', 'POST'])
 def edit_booking(booking_id):
