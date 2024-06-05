@@ -34,6 +34,17 @@ def getCursor():
         print("Error while connecting to MySQL", e)
         return None, None
 
+# Validation functions
+def is_valid_name(name):
+    return re.match("^[A-Za-z\s]+$", name) is not None
+
+def is_valid_phone(phone):
+    return re.match("^\d+$", phone) is not None
+
+def is_valid_email(email):
+    return re.match(r"[^@]+@[^@]+\.[^@]+", email) is not None
+
+
 # home page
 @app.route("/")
 def home():
@@ -156,7 +167,7 @@ def confirm_delete_booking(booking_id):
     if request.method == 'POST':
         cursor.execute("DELETE FROM bookings WHERE booking_id = %s;", (booking_id,))
         conn.commit()
-        flash('Booking deleted successfully!', 'success')
+        flash(f'Booking {booking_id} deleted successfully!', 'success')
         return redirect(url_for('booking_list'))
     else:
         cursor.execute("""
