@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-danger text-center">Booking List</h2><br />
+      <h3 class="text-light text-center">Confirm Deletion</h3>
+      <h4 class="text-light text-center">Are you sure you want to delete the booking for {{ booking[1] }} {{ booking[2] }} on {{ booking[3] }}?</h4>
+    </div>
+  </div>
+</div>
+      <table class='table table-dark'>
+        <thead>
+          <tr>
+            <th class="text-light text-center">Booking ID</th>
+            <th class="text-light text-center">First Name</th>
+            <th class="text-light text-center">Family Name</th>
+            <th class="text-light text-center">Occupants</th>
+            <th class="text-light text-center">Site</th>
+            <th class="text-light text-center">Start Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-light text-center">{{ booking[0] }}</td>
+            <td class="text-light text-center">{{ booking[1] }}</td>
+            <td class="text-light text-center">{{ booking[2] }}</td>
+            <td class="text-light text-center">{{ booking[4] }}</td>
+            <td class="text-light text-center">{{ booking[5] }}</td>
+            <td class="text-light text-center">{{ booking[3] }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center">
+        <form action="{{ url_for('confirm_delete_booking', booking_id=booking_to_delete[0]) }}" method="post">
+            <button type="submit" class="btn btn-danger mx-2">Yes</button>
+        </form>
+        <a href="{{ url_for('booking_list') }}" class="btn btn-secondary mx-2">No</a>
+      </div>
+   
+{% endblock %}

@@ -33,18 +33,6 @@ def getCursor():
     except mysql.connector.Error as e:
         print("Error while connecting to MySQL", e)
         return None, None
-
-# Validation functions
-def is_valid_name(name):
-    return re.match("^[A-Za-z\s]+$", name) is not None
-
-def is_valid_phone(phone):
-    return re.match("^\d+$", phone) is not None
-
-def is_valid_email(email):
-    return re.match(r"[^@]+@[^@]+\.[^@]+", email) is not None
-
-
 # home page
 @app.route("/")
 def home():
@@ -71,7 +59,31 @@ def campers():
             message = f"No campers found for the selected date: {camp_date}."
             return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message)
     return render_template("datepickercamper.html", camperlist=[], campdate=None)
+# Search camper route
+@app.route('/search/camper', methods=['GET', 'POST'])
+def search_camper():
+    report = None
+    message = ""
+    if request.method == 'POST':
+        search_query = request.form.get('search', '').strip()
+        if search_query:
+            cursor, _ = getCursor()
+            if cursor:
+                cursor.execute("""
+                    SELECT c.customer_id, c.firstname, c.familyname, 
+                           COUNT(b.booking_id) as total_bookings, 
+                           IFNULL(AVG(b.occupancy), 0) as avg_occupancy
+                    FROM customers c
+                    LEFT JOIN bookings b ON c.customer_id = b.customer
+                    WHERE c.firstname LIKE %s OR c.familyname LIKE %s OR c.customer_id = %s
+                    GROUP BY c.customer_id, c.firstname, c.familyname;
+                """, ('%' + search_query + '%', '%' + search_query + '%', search_query))
+                report = cursor.fetchone()
+                if not report:
+                    message = f"Sorry, there is no report for '{search_query}'."
+    return render_template('searchcamper.html', report=report, message=message)
 
+ 
 #make booking--first page
 @app.route("/booking", methods=['GET', 'POST'])
 def booking():
@@ -171,7 +183,7 @@ def confirm_delete_booking(booking_id):
         return redirect(url_for('booking_list'))
     else:
         cursor.execute("""
-            SELECT b.booking_id, c.firstname, c.familyname, b.booking_date
+            SELECT b.booking_id, c.firstname, c.familyname, b.booking_date, b.occupancy, b.site
             FROM bookings b
             JOIN customers c ON b.customer = c.customer_id
             WHERE b.booking_id = %s;

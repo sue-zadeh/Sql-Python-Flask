@@ -8,7 +8,7 @@
       {% else %}
       <h2 class="text-danger text-center"> Make a Booking</h2>
       {% endif %}
-      <form action="{% if edit_mode %}{{ url_for('edit_booking', booking_id=booking.booking_id) }}{% else %}{{ url_for('make_booking') }}{% endif %}" method="POST" class="m-5">
+      <form action="{% if edit_mode %}{{ url_for('edit_booking', booking_id=booking.booking_id[1]) }}{% else %}{{ url_for('make_booking') }}{% endif %}" method="POST" class="m-5">
         <div class="mb-3">
           <label for="bookingdate" class="form-label text-light">Start Date to be booked</label>
           <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{% if edit_mode %}{{ booking.booking_date }}{% else %}{{bookingdate}}{% endif %}" required>

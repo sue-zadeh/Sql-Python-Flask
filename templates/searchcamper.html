@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-danger text-center">Search Camper</h2>
+      <form action="{{ url_for('search_camper') }}" method="post" class="m-5 " >
+        <div class="mb-2">
+            <input type="text" class="form-control " id="search" name="search" placeholder="Customer First Name or Family Name or Customer ID" required>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-danger justify-content-center w-25 mt-3">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% if report %}
+<div class="container-zone m-5 justify-content-center">
+  <h3 class="text-danger text-center m-2">Search result</h3>
+  <table class='table table-dark'>
+    <thead>
+      <tr>
+        <th class=" text-light text-center">Customer ID</th>
+        <th class="text-light text-center">First Name</th>
+        <th class="text-light text-center">Family Name</th>
+        <th class="text-light text-center">Total Nights Booking</th>
+        <th class="text-light text-center">Average Occupancy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-light text-center">{{ report.customer_id }}</td>
+        <td class="text-light text-center">{{ report.firstname }}</td>
+        <td class="text-light text-center">{{ report.familyname }}</td>
+        <td class="text-light text-center">{{ report.total_bookings }}</td>
+        <td class="text-light text-center">{{ report.avg_occupancy }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% else %}
+{% if message %}
+<h3 class="text-light text-center">{{ message }}</h3>
+{% endif %}
+{% endif %}
+{% endblock %}
