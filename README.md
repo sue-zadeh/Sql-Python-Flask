@@ -1,26 +1,12 @@
-## title {.tabset .tabset-fade}
-content above tabbed region.
-
-### tab Database questions
-
-tab content Database questions
-
-### tab Design decisions
-
-tab content  Design decisions
-
 
 ## Sql-Python-Flask
 please have a look on my project here: https://suezadeh.pythonanywhere.com/  
 
 
-## Database questions
-## Design decisions
-
  ![SelwynCampground](Docs/SelwynCampground.png)
 
 
-**Database questions:**   
+## Database questions
 
 **Refer to the supplied scg_local.sql file to answer the following questions:** 
 **1- What SQL statement creates the customer table and defines its fields/columns?
