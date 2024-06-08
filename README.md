@@ -79,9 +79,9 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 **5- Suppose the ability for customers to make their own bookings was added. Describe two different changes that would be needed to the data model to implement this.**  
    (Do not implement these changes in your app.)         
 
-• Adding a user authentication system: This usually involves creating a new table such as users with fields user_id, username, password_hash, ..... Each client can be linked to a user to be able having a secure login.  
-
-• Modify the reservations table to include a status field: this will track the status of each reservation (for example pending, confirmed, canceled). It helps manage bookings to be done directly by customers, including changes or cancellations.        
+> • Adding a user authentication system: This usually involves creating a new table >such as users with fields user_id, username, password_hash, ..... Each client can be >linked to a user to be able having a secure login.  
+>
+> • Modify the reservations table to include a status field: this will track the >status of each reservation (for example pending, confirmed, canceled). It helps >manage bookings to be done directly by customers, including changes or >cancellations.        
 	
 =================================================================
 
