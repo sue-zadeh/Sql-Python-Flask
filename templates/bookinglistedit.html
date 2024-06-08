@@ -4,14 +4,17 @@
   <h3 class=" text-danger text-center m-2">Booking List</h3><br />
   <h4 class=" text-light text-center m-1">Please click on Edit if you like to edit booking information</h4>
 </diV>
-  <div class="container-zone m-5">
+  <div class="container-zone m-6">
   <table class='table table-dark'>
 
     <thead>
       <tr>
         <th class="text-light text-center">Booking ID</th>
+        <th class="text-light text-center">Customer ID</th>
         <th class="text-light text-center">First Name</th>
         <th class="text-light text-center">Family Name</th>
+        <th class="text-light text-center">Phone Number</th>
+        <th class="text-light text-center">Email</th>
         <th class="text-light text-center">Occupants</th>
         <th class="text-light text-center">Site</th>
         <th class="text-light text-center">Start Date</th>
@@ -29,6 +32,10 @@
         <td class="text-light text-center">{{ booking[4] }}</td>
         <td class="text-light text-center">{{ booking[5] }}</td>
         <td class="text-light text-center">{{ booking[6] }}</td>
+        <td class="text-light text-center">{{ booking[7] }}</td>
+        <td class="text-light text-center">{{ booking[8] }}</td>
+        <td class="text-light text-center">{{ booking[9] }}</td>
+
         <td class="text-light text-center">
           <a href="{{ url_for('edit_booking', booking_id=booking[0]) }}" class="btn btn-success">Edit</a>
           <a href="{{ url_for('confirm_delete_booking', booking_id=booking[0]) }}" class="btn btn-danger">Delete</a>

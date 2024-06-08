@@ -59,7 +59,8 @@ def campers():
             message = f"No campers found for the selected date: {camp_date}."
             return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message)
     return render_template("datepickercamper.html", camperlist=[], campdate=None)
-# Search camper route
+
+# Search camper
 @app.route('/search/camper', methods=['GET', 'POST'])
 def search_camper():
     report = None
@@ -69,21 +70,34 @@ def search_camper():
         if search_query:
             cursor, _ = getCursor()
             if cursor:
-                cursor.execute("""
-                    SELECT c.customer_id, c.firstname, c.familyname, 
-                           COUNT(b.booking_id) as total_bookings, 
-                           IFNULL(AVG(b.occupancy), 0) as avg_occupancy
-                    FROM customers c
-                    LEFT JOIN bookings b ON c.customer_id = b.customer
-                    WHERE c.firstname LIKE %s OR c.familyname LIKE %s OR c.customer_id = %s
-                    GROUP BY c.customer_id, c.firstname, c.familyname;
-                """, ('%' + search_query + '%', '%' + search_query + '%', search_query))
+                try:
+                    # Check if search query is an integer (customer ID)
+                    customer_id = int(search_query)
+                    cursor.execute("""
+                        SELECT c.customer_id, c.firstname, c.familyname, 
+                               COUNT(b.booking_id) as total_bookings, 
+                               IFNULL(AVG(b.occupancy), 0) as avg_occupancy
+                        FROM customers c
+                        LEFT JOIN bookings b ON c.customer_id = b.customer
+                        WHERE c.customer_id = %s
+                        GROUP BY c.customer_id, c.firstname, c.familyname;
+                    """, (customer_id,))
+                except ValueError:
+                    cursor.execute("""
+                        SELECT c.customer_id, c.firstname, c.familyname, 
+                               COUNT(b.booking_id) as total_bookings, 
+                               IFNULL(AVG(b.occupancy), 0) as avg_occupancy
+                        FROM customers c
+                        LEFT JOIN bookings b ON c.customer_id = b.customer
+                        WHERE c.firstname LIKE %s OR c.familyname LIKE %s
+                        GROUP BY c.customer_id, c.firstname, c.familyname;
+                    """, ('%' + search_query + '%', '%' + search_query + '%'))
+                
                 report = cursor.fetchone()
                 if not report:
                     message = f"Sorry, there is no report for '{search_query}'."
     return render_template('searchcamper.html', report=report, message=message)
 
- 
 #make booking--first page
 @app.route("/booking", methods=['GET', 'POST'])
 def booking():
@@ -127,7 +141,7 @@ def make_booking():
 def booking_list():
     cursor, _ = getCursor()
     cursor.execute("""
-        SELECT b.booking_id, c.firstname, c.familyname, b.occupancy, b.site, b.booking_date, b.nights
+        SELECT b.booking_id, c.customer_id, c.firstname, c.familyname, c.phone, c.email, b.occupancy, b.site, b.booking_date, b.nights
         FROM bookings b
         JOIN customers c ON b.customer = c.customer_id;
     """)
@@ -135,7 +149,7 @@ def booking_list():
     booking_to_delete = request.args.get('booking_to_delete', None)
     if booking_to_delete:
        cursor.execute("""
-        SELECT b.booking_id, c.firstname, c.familyname, b.booking_date 
+        SELECT b.booking_id, c.customer_id, c.firstname, c.familyname, c.phone, c.email, b.booking_date 
             FROM bookings b 
             JOIN customers c ON b.customer = c.customer_id 
             WHERE b.booking_id = %s;

@@ -9,8 +9,8 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 ## Database questions
 
 **Refer to the supplied scg_local.sql file to answer the following questions:** 
-**1- What SQL statement creates the customer table and defines its fields/columns?
-   (Copy and paste the relevant lines of SQL.)**      
+**1- What SQL statement creates the customer table and defines its fields/columns?**
+   *(Copy and paste the relevant lines of SQL.)*      
 
       CREATE TABLE IF NOT EXISTS `customers` (  
       `customer_id` INT NOT NULL AUTO_INCREMENT,  
@@ -86,30 +86,16 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 
 ## Design decisions
 
-When designing and developing the app, I made several key design decisions to ensure functionality and enhance user experience. Here's a summary of these choices:    
+For writing in README.md, the link that Sharon sent to me was very helpful. I styled my text using GitHub Markdown. For adding images, I used this GitHub Markdown syntax:
+ ![alt text](image.jpg) and included a picture of my app there.
 
-*User interface design:*    
-I chose a red color theme based on insights presented in the Comp 640 class about the impact of the red color on UX. Through that presentation I learnt about other colors impact on UX too. The vibrant red color has been chosen to attract and engage users and provides an energetic feel to the app.    
+When designing this app, I decided to have simple pages because it is intended for office use and not for customers. The staff needs clear and accessible information, so simplicity and clarity were my primary goals. Using Bootstrap provided very nice styles for my app. This allowed me to focus more on the backend. For the frontend, I relied on what I learned in my COMP 640 course. I chose a red color and a dark background to make the interface more engaging and visually appealing.
 
-*Navbar and layout:*      
-The layout and navigation structure of the app was heavily influenced by what I learned in the UX Design course (COM640). My goal was simplicity and intuitive design to make the app user-friendly. I researched several other sites for layout inspiration and made sure our app navigation was logical and efficient. Built with Bootstrap, the navigation bar is a vital component that provides easy access to all parts of the app for users.    
+I also made specific decisions about the navbar and which nav items to include to cover all the requirements of this assessment. For example, I included options for adding and editing customers. I decided to use one page for both adding and editing customers since the form is the same. To implement this, I researched how to change the mode for nav items and headers depending on whether the user is adding or editing a customer.
 
-*Form Management and Page Navigation:*  
-In designing the app, I chose to dedicate specific pages to display form data after submission. This decision was driven by the principles of interaction design, specially visibility of system status, user control and freedom which are two of the ten key principles. By doing this, I aimed to give users a clear view and control over the data they submitted, enhancing their ability to manage their inputs effectively.   
+One of the main challenges I encountered was handling the routes in Flask. Each app.route starts with defining a route and determining the method needed for that specific function. Then, I created a function to connect with MySQL using a cursor. For example, I used cursor.execute to define which table and columns are needed for that route, and then used fetchall or fetchone depending on the requirements. This function is then called in the forms to connect the frontend and backend.
 
-*Technical decisions*    
-Data management: At first I had problems with MySQL because I forgot my password. I solved this problem using a special command lines tool I found on Google.      
-Troubleshooting: I tried to fix an issue where client searches were returning empty results by googling the error and find some coded to make connection better with mysql. one of the best website for error handling that i used was stack over flow.       
+I created routes for adding, searching, and editing customers. Additionally, I included a page for the booking list, displaying all tables to make searching easier. I also included options to edit and delete bookings to manage the booking list effectively.
 
-*Data Management:*  
-Initially, I encountered a hiccup with MySQL; I had forgotten my password, which halted my progress. Fortunately, I resolved this issue by using a command-line tool that I found through a Google search. This tool allowed me to reset the password and regain access to my database, ensuring that data management could proceed without further issues.    
+This project was particularly useful for practicing backend development and working with app.route. Each route needed similar structures but with different functionalities. Overall, I learned a lot about connecting frontend forms to backend logic using Flask and MySQL.
 
-*Troubleshooting:*  
-I faced a challenge when client searches were returning empty results, which was critical to address to ensure functionality. To tackle this, I searched for the specific error messages on Google and found useful code snippets and troubleshooting advice. I frequently consulted Stack Overflow, a resource that proved invaluable for finding solutions and bettering my SQL connection queries. This approach not only fixed the immediate problem but also enhanced my understanding of database handling and error resolution.     
-
-*Using GET and POST:*  
-I used both GET and POST in my project. I used GET to pull data from the MySQL database when I needed to look up campers or search for customers. It's good because it keeps things simple and the data can be seen right in the URL.    
-
-For adding new customers or making bookings, I chose POST because it's more secure. It hides the data away from the URL, which is important for private information.    
-
-Learning to use @app.route for both GET and POST was a cool challenge. It helped me understand more about how web apps work.  
