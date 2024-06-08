@@ -26,10 +26,10 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
     
    ``` CONSTRAINT `customer`
-   >FOREIGN KEY (`customer`)
-   >REFERENCES `scg`.`customers` (`customer_id`)
-   >ON DELETE NO ACTION
-   >ON UPDATE NO ACTION);  
+   FOREIGN KEY (`customer`)
+   REFERENCES `scg`.`customers` (`customer_id`)
+   ON DELETE NO ACTION
+   ON UPDATE NO ACTION);  
   
   **3- Which lines of SQL code insert details into the sites table?**    
 
