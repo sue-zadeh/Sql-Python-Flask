@@ -4,6 +4,8 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <h2 class="text-danger text-center">Search Camper</h2>
+      <h4 class=" text-light text-center m-1">Please consider that The report display will be for only 1 customer,<br /> and see the statistics for only that customer </h4>
+
       <form action="{{ url_for('search_camper') }}" method="post" class="m-5">
         <div class="mb-2">
             <input type="text" class="form-control" id="search" name="search" placeholder="Customer First Name or Family Name or Customer ID" required>
@@ -24,8 +26,8 @@
         <th class="text-light text-center">Customer ID</th>
         <th class="text-light text-center">First Name</th>
         <th class="text-light text-center">Family Name</th>
-        <th class="text-light text-center">Total Nights Booking</th>
-        <th class="text-light text-center">Average Occupancy</th>
+        <th class="text-light text-center">number of Nights Booked</th>
+        <th class="text-light text-center">Average Booking Occupancy</th>
       </tr>
     </thead>
     <tbody>

@@ -84,15 +84,15 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 	
 =================================================================
 
-<font color="red"> ## Design decisions</font>
+ ## Design decisions
 
-For writing in README.md, the link that Sharon sent to me was very helpful. I styled my text , codes and image using GitHub Markdown. For adding images, I used GitHub Markdown with this sintax:![alt text](image.jpg) and included a picture of my app there.
+For writing in README.md, the link that Sharon sent to me was very helpful. I styled my text, code, and images using GitHub Markdown. For adding images, I used the syntax `![alt text](image.jpg)`. Thanks to Sharon for the guidance.
 
 When designing this app, I decided to have simple pages because it is intended for office use and not for customers. The staff needs clear and accessible information, so simplicity and clarity were my primary goals. Using Bootstrap provided very nice styles for my app. This allowed me to focus more on the backend. For the frontend, I relied on what I learned in my COMP 640 course. I chose a red color and a dark background to make the interface more engaging and visually appealing.
 
 I also made specific decisions about the navbar and which nav items to include to cover all the requirements of this assessment. For example, I included options for adding and editing customers. I decided to use one page for both adding and editing customers since the form is the same. To implement this, I researched how to change the mode for nav items and headers depending on whether the user is adding or editing a customer.
 
-One of the main challenges I encountered was handling the routes in Flask. Each app.route starts with defining a route and determining the method needed for that specific function. Then, I created a function to connect with MySQL using a cursor. For example, I used cursor.execute to define which table and columns are needed for that route, and then used fetchall or fetchone depending on the requirements. This function is then called in the forms to connect the frontend and backend.
+One of the main challenges I encountered was handling the routes in Flask. Each app.route starts with defining a route and determining the method needed (GET, POST ) for that specific function. Then, I created a function to connect with MySQL using a cursor. For example, I used cursor.execute to define which table and columns are needed for that route, and then used fetchall or fetchone depending on the requirements. This function is then called in the forms to connect the frontend and backend.
 
 I created routes for adding, searching, and editing customers. Additionally, I included a page for the booking list, displaying all tables to make searching easier. I also included options to edit and delete bookings to manage the booking list effectively.
 
