@@ -14,7 +14,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 **1- What SQL statement creates the customer table and defines its fields/columns?
    (Copy and paste the relevant lines of SQL.)**      
 
-  >CREATE TABLE IF NOT EXISTS `customers` (  
+  >```CREATE TABLE IF NOT EXISTS `customers` (  
   >`customer_id` INT NOT NULL AUTO_INCREMENT,  
   >`firstname` VARCHAR(45) NULL,  
   >`familyname` VARCHAR(60) NOT NULL,  
@@ -25,7 +25,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
   
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
     
-   > CONSTRAINT `customer`
+   >``` CONSTRAINT `customer`
    >FOREIGN KEY (`customer`)
    >REFERENCES `scg`.`customers` (`customer_id`)
    >ON DELETE NO ACTION
