@@ -15,12 +15,12 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
    (Copy and paste the relevant lines of SQL.)**      
 
   ```CREATE TABLE IF NOT EXISTS `customers` (  
-  >`customer_id` INT NOT NULL AUTO_INCREMENT,  
-  >`firstname` VARCHAR(45) NULL,  
-  >`familyname` VARCHAR(60) NOT NULL,  
-  >`email` VARCHAR(255) NULL,  
-  >`phone` VARCHAR(12) NULL,  
-  > PRIMARY KEY (`customer_id`));      
+  `customer_id` INT NOT NULL AUTO_INCREMENT,  
+  `firstname` VARCHAR(45) NULL,  
+  `familyname` VARCHAR(60) NOT NULL,  
+  `email` VARCHAR(255) NULL,  
+  `phone` VARCHAR(12) NULL,  
+   PRIMARY KEY (`customer_id`));      
   
   
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
