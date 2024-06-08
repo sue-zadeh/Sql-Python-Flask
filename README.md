@@ -14,7 +14,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 **1- What SQL statement creates the customer table and defines its fields/columns?
    (Copy and paste the relevant lines of SQL.)**      
 
-  >```CREATE TABLE IF NOT EXISTS `customers` (  
+  >CREATE TABLE IF NOT EXISTS `customers` (  
   >`customer_id` INT NOT NULL AUTO_INCREMENT,  
   >`firstname` VARCHAR(45) NULL,  
   >`familyname` VARCHAR(60) NOT NULL,  
@@ -25,7 +25,7 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
   
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
     
-   > ```CONSTRAINT `customer`
+   > CONSTRAINT `customer`
    >FOREIGN KEY (`customer`)
    >REFERENCES `scg`.`customers` (`customer_id`)
    >ON DELETE NO ACTION
@@ -33,8 +33,8 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
   
   **3- Which lines of SQL code insert details into the sites table?**    
 
-   >```INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P1', '5');    
-   INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
+   >INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P1', '5');    
+   >INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
    >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
    >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
    >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
@@ -68,12 +68,13 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
    >NSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,>occupancy`) VALUES ('235', 'U2', '241', '2024-06-02','2');    
    >NSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,>occupancy`)   VALUES ('236', 'U2', '241', '2024-06-05','2');  
    >NSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,>occupancy`)     VALUES ('237', 'U2', '241', '2024-07-05','2');  
-   >NSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,>occupancy`)     VALUES ('238', 'U2', '241', '2024-07-06','2');       
+   >NSERT INTO `bookings` (`booking_id`, `site`, `customer`, `booking_date`,>occupancy`)     VALUES ('238', 'U2', '241', '2024-07-06','2'); 
+         
 **4- Suppose that as part of an audit trail, the time and date a booking was added to the database needed to be recorded. What fields/columns would you need to add to which tables? Provide the table name, new column name and the data type. (Do not implement this change in your app.)**   
 
-•	table name: Bookings    
-•	new column name: created_at    
-•	data type: datetime or TimeStamp         
+> •	table name: Bookings    
+> •	new column name: created_at    
+> •	data type: datetime or TimeStamp         
 	
 **5- Suppose the ability for customers to make their own bookings was added. Describe two different changes that would be needed to the data model to implement this.**  
    (Do not implement these changes in your app.)         
