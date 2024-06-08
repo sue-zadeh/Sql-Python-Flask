@@ -14,30 +14,30 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 **1- What SQL statement creates the customer table and defines its fields/columns?
    (Copy and paste the relevant lines of SQL.)**      
 
-      ```CREATE TABLE IF NOT EXISTS `customers` (  
-  `customer_id` INT NOT NULL AUTO_INCREMENT,  
-  `firstname` VARCHAR(45) NULL,  
-  `familyname` VARCHAR(60) NOT NULL,  
-  `email` VARCHAR(255) NULL,  
-  `phone` VARCHAR(12) NULL,  
-   PRIMARY KEY (`customer_id`));      
+      CREATE TABLE IF NOT EXISTS `customers` (  
+      `customer_id` INT NOT NULL AUTO_INCREMENT,  
+     `firstname` VARCHAR(45) NULL,  
+     `familyname` VARCHAR(60) NOT NULL,  
+     `email` VARCHAR(255) NULL,  
+      `phone` VARCHAR(12) NULL,  
+       PRIMARY KEY (`customer_id`));      
   
   
 **2- Which line of SQL code sets up the relationship between the customer and booking tables?**     
     
-```CONSTRAINT `customer`  
-```FOREIGN KEY (`customer`)  
-```REFERENCES `scg`.`customers` (`customer_id`)  
-```ON DELETE NO ACTION  
-```ON UPDATE NO ACTION);  
+    CONSTRAINT `customer`  
+    FOREIGN KEY (`customer`)  
+    REFERENCES `scg`.`customers` (`customer_id`)  
+    ON DELETE NO ACTION  
+    ON UPDATE NO ACTION);  
   
   **3- Which lines of SQL code insert details into the sites table?**    
 
-    ```INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P1', '5');    
-   ```INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
-   ```NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
-   >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
-   >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
+      INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P1', '5');    
+      INSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
+      NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P4', '2');    
+      NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
+      NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P2', '3');  
    >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P5', '8');  
    >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P5', '8');  
    >NSERT INTO `sites` (`site_id`, `occupancy`) VALUES ('P3', '2');  
