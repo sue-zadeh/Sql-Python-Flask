@@ -84,10 +84,9 @@ please have a look on my project here: https://suezadeh.pythonanywhere.com/
 	
 =================================================================
 
-## Design decisions
+<font color="red"> ## Design decisions</font>
 
-For writing in README.md, the link that Sharon sent to me was very helpful. I styled my text using GitHub Markdown. For adding images, I used this GitHub Markdown syntax:
- ![alt text](image.jpg) and included a picture of my app there.
+For writing in README.md, the link that Sharon sent to me was very helpful. I styled my text , codes and image using GitHub Markdown. For adding images, I used GitHub Markdown with this sintax:![alt text](image.jpg) and included a picture of my app there.
 
 When designing this app, I decided to have simple pages because it is intended for office use and not for customers. The staff needs clear and accessible information, so simplicity and clarity were my primary goals. Using Bootstrap provided very nice styles for my app. This allowed me to focus more on the backend. For the frontend, I relied on what I learned in my COMP 640 course. I chose a red color and a dark background to make the interface more engaging and visually appealing.
 

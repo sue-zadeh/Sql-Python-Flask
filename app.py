@@ -52,7 +52,6 @@ def campers():
             WHERE bookings.booking_date = %s;
         """, (camp_date,))
         camper_list = cursor.fetchall()
-       # print(f"Fetched campers for {camp_date}: {camper_list}")  # Debugging statement
         if camper_list:
             return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date)
         else:
@@ -67,7 +66,10 @@ def search_camper():
     message = ""
     if request.method == 'POST':
         search_query = request.form.get('search', '').strip()
-        if search_query:
+
+        if not search_query:
+            message = "Please enter a valid search term."
+        else:
             cursor, _ = getCursor()
             if cursor:
                 try:
@@ -83,19 +85,23 @@ def search_camper():
                         GROUP BY c.customer_id, c.firstname, c.familyname;
                     """, (customer_id,))
                 except ValueError:
-                    cursor.execute("""
-                        SELECT c.customer_id, c.firstname, c.familyname, 
-                               COUNT(b.booking_id) as total_bookings, 
-                               IFNULL(AVG(b.occupancy), 0) as avg_occupancy
-                        FROM customers c
-                        LEFT JOIN bookings b ON c.customer_id = b.customer
-                        WHERE c.firstname LIKE %s OR c.familyname LIKE %s
-                        GROUP BY c.customer_id, c.firstname, c.familyname;
-                    """, ('%' + search_query + '%', '%' + search_query + '%'))
-                
-                report = cursor.fetchone()
-                if not report:
-                    message = f"Sorry, there is no report for '{search_query}'."
+                    # search for full first name or family name matches
+                    if len(search_query) < 2:
+                        message = "Please enter the full first name or family name, or a valid customer ID."
+                    else:
+                        cursor.execute("""
+                            SELECT c.customer_id, c.firstname, c.familyname, 
+                                   COUNT(b.booking_id) as total_bookings, 
+                                   IFNULL(AVG(b.occupancy), 0) as avg_occupancy
+                            FROM customers c
+                            LEFT JOIN bookings b ON c.customer_id = b.customer
+                            WHERE c.firstname = %s OR c.familyname = %s
+                            GROUP BY c.customer_id, c.firstname, c.familyname;
+                        """, (search_query, search_query))
+
+                        report = cursor.fetchone()
+                        if not report:
+                            message = f"Sorry, there is no report for '{search_query}'."
     return render_template('searchcamper.html', report=report, message=message)
 
 #make booking--first page
