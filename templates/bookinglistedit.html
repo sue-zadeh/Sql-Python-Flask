@@ -1,58 +1,77 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="container-zone m-5 justify-content-center">
-  <h3 class=" text-danger text-center m-2">Booking List</h3><br />
-  <h4 class=" text-light text-center m-1">Please click on Edit if you like to edit booking information</h4>
-</diV>
-  <div class="container-zone m-6">
-  <table class='table table-dark'>
-
-    <thead>
-      <tr>
-        <th class="text-light text-center">Booking ID</th>
-        <th class="text-light text-center">Customer ID</th>
-        <th class="text-light text-center">First Name</th>
-        <th class="text-light text-center">Family Name</th>
-        <th class="text-light text-center">Phone Number</th>
-        <th class="text-light text-center">Email</th>
-        <th class="text-light text-center">Occupants</th>
-        <th class="text-light text-center">Site</th>
-        <th class="text-light text-center">Start Date</th>
-        <th class="text-light text-center">Booking Nights</th>
-        <th class="text-light text-center">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for booking in bookings %}
-      <tr>
-        <td class="text-light text-center">{{ booking[0] }}</td>
-        <td class="text-light text-center">{{ booking[1] }}</td>
-        <td class="text-light text-center">{{ booking[2] }}</td>
-        <td class="text-light text-center">{{ booking[3] }}</td>
-        <td class="text-light text-center">{{ booking[4] }}</td>
-        <td class="text-light text-center">{{ booking[5] }}</td>
-        <td class="text-light text-center">{{ booking[6] }}</td>
-        <td class="text-light text-center">{{ booking[7] }}</td>
-        <td class="text-light text-center">{{ booking[8] }}</td>
-        <td class="text-light text-center">{{ booking[9] }}</td>
-
-        <td class="text-light text-center">
-          <a href="{{ url_for('edit_booking', booking_id=booking[0]) }}" class="btn btn-success">Edit</a>
-          <a href="{{ url_for('confirm_delete_booking', booking_id=booking[0]) }}" class="btn btn-danger">Delete</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% block head %}
+  <meta http-equiv="refresh" content="3;url={{ url_for('booking_list') }}">
+  {{ super() }}
+  {% endblock %}
+  {% block content %}
+  <div class="container-zone m-5 justify-content-center">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% for category, message in messages %}
+    <strong>{{ message }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <h3 class="text-danger text-center m-2">Booking List</h3>
+  <h4 class="text-light text-center m-1">Please click on Edit if you like to edit booking information</h4>
+</div>
+<div class="container-zone m-6">
+    <table class='table table-responsive table-dark table-striped'>
+      <thead>
+        <tr>
+          <th class="text-center">Booking ID</th>
+          <th class="text-center">Customer ID</th>
+          <th class="text-center">First Name</th>
+          <th class="text-center">Family Name</th>
+          <th class="text-center">Phone Number</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Occupants</th>
+          <th class="text-center">Site</th>
+          <th class="text-center">  Start Date</th>
+          <th class="text-center">Booking Nights</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td class="text-center">{{ booking[0] }}</td>
+          <td class="text-center">{{ booking[1] }}</td>
+          <td class="text-center">{{ booking[2] }}</td>
+          <td class="text-center">{{ booking[3] }}</td>
+          <td class="text-center">{{ booking[4] }}</td>
+          <td class="text-center">{{ booking[5] }}</td>
+          <td class="text-center">{{ booking[6] }}</td>
+          <td class="text-center">{{ booking[7] }}</td>
+          <td class="text-center">{{ booking[8] }}</td>
+          <td class="text-center">{{ booking[9] }}</td>
+          <td class="text-center">
+            <a href="{{ url_for('edit_booking', booking_id=booking[0]) }}" class="btn btn-success btn-sm">
+              <i class="fa fa-edit"></i> Edit
+            </a>
+            <a href="{{ url_for('confirm_delete_booking', booking_id=booking[0]) }}" class="btn btn-danger btn-sm">
+              <i class="fa fa-trash"></i> Delete
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% if booking_to_delete %}
-    <div class="container mt-5">
-        <h2 class="text-danger text-center">Confirm Deletion</h2>
-        <h5 class="text-light text-center">Are you sure you want to delete the booking for {{ booking_to_delete[1] }} {{ booking_to_delete[2] }} on {{ booking_to_delete[3] }}?</h5>
-        <form action="{{ url_for('confirm_delete_booking', booking_id=booking_to_delete[0]) }}" method="POST" class="text-center">
-            <button type="submit" class="btn btn-danger">Yes</button>
-            <a href="{{ url_for('booking_list') }}" class="btn btn-success">No</a>
-        </form>
-    </div>
-    {% endif %}
+  <div class="container mt-5">
+    <h2 class="text-danger text-center">Confirm Deletion</h2>
+    <h5 class="text-light text-center">Are you sure you want to delete the booking for {{ booking_to_delete[1] }} {{ booking_to_delete[2] }} on {{ booking_to_delete[3] }}?</h5>
+    <form action="{{ url_for('confirm_delete_booking', booking_id=booking_to_delete[0]) }}" method="POST" class="text-center">
+      <button type="submit" class="btn btn-danger">Yes</button>
+      <a href="{{ url_for('booking_list') }}" class="btn btn-success">No</a>
+    </form>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

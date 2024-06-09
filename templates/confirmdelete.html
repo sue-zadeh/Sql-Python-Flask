@@ -32,10 +32,9 @@
         </tbody>
       </table>
       <div class="d-flex justify-content-center">
-        <form action="{{ url_for('confirm_delete_booking', booking_id=booking_to_delete[0]) }}" method="post">
+        <form action="{{ url_for('confirm_delete_booking', booking_id=booking[0]) }}" method="post">
             <button type="submit" class="btn btn-danger mx-2">Yes</button>
         </form>
         <a href="{{ url_for('booking_list') }}" class="btn btn-secondary mx-2">No</a>
       </div>
-   
 {% endblock %}

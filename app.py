@@ -84,8 +84,11 @@ def search_camper():
                         WHERE c.customer_id = %s
                         GROUP BY c.customer_id, c.firstname, c.familyname;
                     """, (customer_id,))
+                    report = cursor.fetchone()
+                    if not report:
+                        message = f"Sorry, there is no report for customer ID '{customer_id}'."
                 except ValueError:
-                    # search for full first name or family name matches
+                    # Perform a stricter search for full first name or family name matches
                     if len(search_query) < 2:
                         message = "Please enter the full first name or family name, or a valid customer ID."
                     else:
@@ -103,6 +106,8 @@ def search_camper():
                         if not report:
                             message = f"Sorry, there is no report for '{search_query}'."
     return render_template('searchcamper.html', report=report, message=message)
+
+
 
 #make booking--first page
 @app.route("/booking", methods=['GET', 'POST'])
@@ -209,8 +214,8 @@ def confirm_delete_booking(booking_id):
             WHERE b.booking_id = %s;
         """, (booking_id,))
         booking = cursor.fetchone()
-        return render_template("bookinglistedit.html", booking_to_delete=booking)
-  
+        return render_template("confirmdelete.html", booking=booking)
+
 # search customers
 @app.route("/search/customers", methods=['GET', 'POST'])
 def search_customers():
