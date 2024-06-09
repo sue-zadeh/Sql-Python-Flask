@@ -8,10 +8,10 @@
       {% else %}
       <h2 class="text-danger text-center"> Make Booking</h2>
       {% endif %}
-      <form action="{% if edit_mode %}{{ url_for('edit_booking', booking_id=booking.booking_id[1]) }}{% else %}{{ url_for('make_booking') }}{% endif %}" method="POST" class="m-5">
+      <form action="{% if edit_mode %}{{ url_for('edit_booking', booking_id=booking.booking_id) }}{% else %}{{ url_for('make_booking') }}{% endif %}" method="POST" class="m-5">
         <div class="mb-3">
           <label for="bookingdate" class="form-label text-light">Start Date to be booked</label>
-          <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{% if edit_mode %}{{ booking.booking_date }}{% else %}{{bookingdate}}{% endif %}" required>
+          <input type="date" class="form-control" min="{% if edit_mode and booking.booking_date < currentdate %}{{ booking.booking_date }}{% else %}{{ currentdate }}{% endif %}" name="bookingdate" value="{% if edit_mode %}{{ booking.booking_date }}{% else %}{{ currentdate }}{% endif %}" required>
         </div>
         <input type="hidden" name="bookingnights" value="{% if edit_mode %}{{ booking.booking_nights }}{% else %}{{bookingnights}}{% endif %}">
         <input type="hidden" name="occupancy" value="{% if edit_mode %}{{ booking.occupancy }}{% else %}{{occupancy}}{% endif %}">
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <input type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3" value="Submit">
+          <input type="submit" class="btn btn-danger btn-outline-success primary justify-content-center fs-6 w-25 mt-3" value="{% if edit_mode %}Update Booking{% else %}Submit{% endif %}">
         </div>
       </form>
     </div>

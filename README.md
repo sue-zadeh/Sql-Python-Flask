@@ -96,5 +96,14 @@ One of the main challenges I encountered was handling the routes in Flask. Each 
 
 I created routes for adding, searching, and editing customers. Additionally, I included a page for the booking list, displaying all tables to make searching easier. I also included options to edit and delete bookings to manage the booking list effectively.
 
-This project was particularly useful for practicing backend development and working with app.route. Each route needed similar structures but with different functionalities. Overall, I learned a lot about connecting frontend forms to backend logic using Flask and MySQL.
+Another issues I encountered was with one of the requirements to show the total number of nights that a customer booked. "Number of nights" is an input in the make booking form, but I couldn't find a corresponding column in the bookings table. So, I had to add a nights column to the bookings table with this 
 
+    ALTER TABLE bookings ADD COLUMN nights INT;
+
+After adding the column, I noticed that the existing rows had no values for the nights column. To address this, I decided to set the default value to '1' for previous bookings using this code:
+
+    UPDATE bookings SET nights = 1;
+
+Then, I added the nights column (bookings.nights) in my code.
+
+This project was particularly useful for practicing backend development and working with app.route. Each route needed similar structures but with different functionalities. Overall, I learned a lot about connecting frontend forms to backend logic using Flask and MySQL.

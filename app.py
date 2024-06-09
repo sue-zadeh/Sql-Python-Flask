@@ -38,9 +38,12 @@ def getCursor():
 def home():
     return render_template("home.html")
 
-#camperlist
+#camper list
+from datetime import datetime
+
 @app.route("/campers", methods=['GET'])
 def campers():
+    currentdate = datetime.now().strftime('%Y-%m-%d')
     camp_date = request.args.get('campdate')
     if camp_date:
         cursor, _ = getCursor()
@@ -53,13 +56,14 @@ def campers():
         """, (camp_date,))
         camper_list = cursor.fetchall()
         if camper_list:
-            return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date)
+            return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date, currentdate=currentdate)
         else:
             message = f"No campers found for the selected date: {camp_date}."
-            return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message)
-    return render_template("datepickercamper.html", camperlist=[], campdate=None)
+            return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message, currentdate=currentdate)
+    return render_template("datepickercamper.html", camperlist=[], campdate=None, currentdate=currentdate)
 
-# Search camper
+ 
+ # Search camper
 @app.route('/search/camper', methods=['GET', 'POST'])
 def search_camper():
     report = None
