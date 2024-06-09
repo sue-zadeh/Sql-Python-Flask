@@ -11,21 +11,26 @@
       <form action="{% if edit_mode %}{{ url_for('edit_booking', booking_id=booking.booking_id) }}{% else %}{{ url_for('make_booking') }}{% endif %}" method="POST" class="m-5">
         <div class="mb-3">
           <label for="bookingdate" class="form-label text-light">Start Date to be booked</label>
-          <input type="date" class="form-control" min="{% if edit_mode and booking.booking_date < currentdate %}{{ booking.booking_date }}{% else %}{{ currentdate }}{% endif %}" name="bookingdate" value="{% if edit_mode %}{{ booking.booking_date }}{% else %}{{ currentdate }}{% endif %}" required>
+          <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" value="{% if edit_mode %}{{ booking.booking_date }}{% else %}{{ bookingdate }}{% endif %}" required>
         </div>
-        <input type="hidden" name="bookingnights" value="{% if edit_mode %}{{ booking.booking_nights }}{% else %}{{bookingnights}}{% endif %}">
-        <input type="hidden" name="occupancy" value="{% if edit_mode %}{{ booking.occupancy }}{% else %}{{occupancy}}{% endif %}">
+        <div class="mb-3" {% if not edit_mode %}style="display: none;"{% endif %}>
+          <label for="bookingnights" class="form-label text-light">Number of nights</label>
+          <input type="number" class="form-control" name="bookingnights" min="1" max="5" step="1" value="{% if edit_mode %}{{ booking.booking_nights }}{% else %}{{ bookingnights }}{% endif %}" required>
+        </div>
+        <div class="mb-3" {% if not edit_mode %}style="display: none;"{% endif %}>
+          <label for="occupancy" class="form-label text-light">Number of people</label>
+          <input type="number" class="form-control" name="occupancy" min="1" max="8" step="1" value="{% if edit_mode %}{{ booking.occupancy }}{% else %}{{ occupancy }}{% endif %}" required>
+        </div>
         <div class="mb-3">
           <label for="customer" class="form-label text-light">Customer to book for</label>
           <select name="customer" class="form-control">
             {% for customer in customerlist %}
-            <option class="form-control" value="{{customer[0]}}" {% if edit_mode and customer[0] == booking.customer %}selected{% endif %}>{{customer[1]}} {{customer[2]}}</option>
+            <option class="form-control" value="{{ customer[0] }}" {% if edit_mode and customer[0] == booking.customer %}selected{% endif %}>{{ customer[1] }} {{ customer[2] }}</option>
             {% endfor %}
           </select>
         </div>
         <div class="mb-3">
           <label for="site" class="form-label text-light">Site to select</label>
-           <!-- radio button loop -->
           <div class="container">
             <div class="row">
               {% for site in sitelist %}
@@ -35,9 +40,8 @@
                   <label class="form-check-label text-light" for="site{{ loop.index }}">
                     {{ site[0] }} - Occupancy: {{ site[1] }}
                   </label>
-            </div>
-           </div>
-            <!-- show sites list in 3 column -->
+                </div>
+              </div>
               {% if loop.index0 % 3 == 2 %}
               <div class="w-100"></div>
               {% endif %}
@@ -46,7 +50,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <input type="submit" class="btn btn-danger btn-outline-success primary justify-content-center fs-6 w-25 mt-3" value="{% if edit_mode %}Update Booking{% else %}Submit{% endif %}">
+          <input type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3" value="{% if edit_mode %}Update Booking{% else %}Submit{% endif %}">
         </div>
       </form>
     </div>

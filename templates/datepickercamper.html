@@ -8,49 +8,48 @@
             <form action="{{ url_for('campers') }}" method="get" class="m-5">
                 <div class="mb-3">
                     <label for="campdate" class="form-label text-light">Select Date:</label>
-                    <input type="date" class="form-control" id="campdate" name="campdate" min="{{ currentdate }}" value="{{ currentdate }}" required>
+                    <input type="date" class="form-control" id="campdate" name="campdate" min="{{ currentdate }}" placeholder="dd/mm/yyyy" required>
                   </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-danger text-light justify-content-center fs-6 w-25 mt-3">View Campers</button>
                 </div>
             </form>
-          </div>
-      </div>
-  </div>
-            {% if camperlist %}
-            <h3 class="text-danger text-center m-3">Camper List for {{ campdate }}</h3>
-                  
-                  <h4 class="text-light text-center m-3">Please visit the "Booking List & Edit" page if you would like to view or edit booking information.
-                  </h4>
-                  <div class="container-zone m-5 justify-content-center">
-                    <table class='table table-dark'>
-                <thead>
-                    <tr>
-                        <th class="text-light text-center">Booking ID</th>
-                        <th class="text-light text-center">First Name</th>
-                        <th class="text-light text-center">Family Name</th>
-                        <th class="text-light text-center">Occupants</th>
-                        <th class="text-light text-center">Site</th>
-                        <th class="text-light text-center">Date</th>
-                        <th class="text-light text-center">Booking Nights</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for camper in camperlist %}
-                    <tr>
-                        <td class="text-light text-center">{{ camper[0] }}</td>
-                        <td class="text-light text-center">{{ camper[1] }}</td>
-                        <td class="text-light text-center">{{ camper[2] }}</td>
-                        <td class="text-light text-center">{{ camper[3] }}</td>
-                        <td class="text-light text-center">{{ camper[4] }}</td>
-                        <td class="text-light text-center">{{ camper[5] }}</td>
-                        <td class="text-light text-center">{{ camper[6] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-          </div>
-            {% else %}
-            <h3 class="text-light text-center">{{ message }}</h3>
-            {% endif %}
+        </div>
+    </div>
+</div>
+{% if camperlist %}
+<h3 class="text-danger text-center m-3">Camper List for {{ campdate }}</h3>
+
+<h4 class="text-light text-center m-3">Please visit the "Booking List & Edit" page if you would like to view or edit booking information.</h4>
+<div class="container-zone m-5 justify-content-center">
+    <table class='table table-dark'>
+        <thead>
+            <tr>
+                <th class="text-light text-center">Booking ID</th>
+                <th class="text-light text-center">First Name</th>
+                <th class="text-light text-center">Family Name</th>
+                <th class="text-light text-center">Occupants</th>
+                <th class="text-light text-center">Site</th>
+                <th class="text-light text-center">Date</th>
+                <th class="text-light text-center">Booking Nights</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for camper in camperlist %}
+            <tr>
+                <td class="text-light text-center">{{ camper[0] }}</td>
+                <td class="text-light text-center">{{ camper[1] }}</td>
+                <td class="text-light text-center">{{ camper[2] }}</td>
+                <td class="text-light text-center">{{ camper[3] }}</td>
+                <td class="text-light text-center">{{ camper[4] }}</td>
+                <td class="text-light text-center">{{ camper[5] }}</td>
+                <td class="text-light text-center">{{ camper[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<h3 class="text-light text-center">{{ message }}</h3>
+{% endif %}
 {% endblock %}

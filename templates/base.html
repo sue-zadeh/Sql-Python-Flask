@@ -25,7 +25,7 @@
                   
                 <li class="nav-item pe-3 text-light">
                   <!--code in the double parantesis is for turning text black, when the page is open-->
-                    <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'campers' else '' }}" href="{{ url_for('campers') }}">Campers list</a>
+                    <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'campers' else '' }}" href="{{ url_for('campers') }}">Camper Schedule</a>
                 </li>
                 <li class="nav-item pe-3 text-light">
                   <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'search_ccamper' else '' }}" href="{{ url_for('search_camper') }}">Search camper</a>
@@ -37,7 +37,7 @@
                     
                   </li>
                   <li class="nav-item pe-3 text-light">
-                    <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'booking_list' else '' }}" href="{{ url_for('booking_list') }}">Booking List&Edit</a>
+                    <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'booking_list' else '' }}" href="{{ url_for('booking_list') }}">Camper List&Edit</a>
                   </li>
                   <li class="nav-item pe-3 text-light">
                       <a class="nav-link fs-5 {{ 'text-dark' if request.endpoint == 'search_customers' else '' }}" href="{{ url_for('search_customers') }}">Search Customers</a>

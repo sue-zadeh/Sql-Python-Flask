@@ -38,13 +38,13 @@ def getCursor():
 def home():
     return render_template("home.html")
 
-#camper list
-from datetime import datetime
-
+#camper list based on date
 @app.route("/campers", methods=['GET'])
 def campers():
     currentdate = datetime.now().strftime('%Y-%m-%d')
+    currentdate_display = datetime.now().strftime('%d/%m/%Y')
     camp_date = request.args.get('campdate')
+    
     if camp_date:
         cursor, _ = getCursor()
         cursor.execute("""
@@ -54,15 +54,15 @@ def campers():
             JOIN customers ON bookings.customer = customers.customer_id 
             WHERE bookings.booking_date = %s;
         """, (camp_date,))
+        
         camper_list = cursor.fetchall()
         if camper_list:
             return render_template("datepickercamper.html", camperlist=camper_list, campdate=camp_date, currentdate=currentdate)
         else:
             message = f"No campers found for the selected date: {camp_date}."
             return render_template("datepickercamper.html", camperlist=[], campdate=camp_date, message=message, currentdate=currentdate)
+    
     return render_template("datepickercamper.html", camperlist=[], campdate=None, currentdate=currentdate)
-
- 
  # Search camper
 @app.route('/search/camper', methods=['GET', 'POST'])
 def search_camper():
@@ -111,9 +111,7 @@ def search_camper():
                             message = f"Sorry, there is no report for '{search_query}'."
     return render_template('searchcamper.html', report=report, message=message)
 
-
-
-#make booking--first page
+#make booking-first page
 @app.route("/booking", methods=['GET', 'POST'])
 def booking():
     if request.method == "GET":
@@ -151,8 +149,65 @@ def make_booking():
     flash('Booking added successfully!', 'success')
     return redirect(url_for('booking_list'))
   
-# booking list -show booking result 
-@app.route("/booking_list", methods=['GET'])
+  #edit booking
+@app.route("/booking/edit/<int:booking_id>", methods=['GET', 'POST'])
+def edit_booking(booking_id):
+    cursor, conn = getCursor()
+    if request.method == 'GET':
+        cursor.execute("SELECT booking_id, customer, booking_date, site, occupancy, nights FROM bookings WHERE booking_id = %s;", (booking_id,))
+        booking = cursor.fetchone()
+        if not booking:
+            flash('Booking not found!', 'danger')
+            return redirect(url_for('booking_list'))
+
+        booking_data = {
+            'booking_id': booking[0],
+            'customer': booking[1],
+            'booking_date': booking[2],
+            'site': booking[3],
+            'occupancy': booking[4],
+            'booking_nights': booking[5]
+        }
+
+        cursor.execute("SELECT * FROM customers;")
+        customerList = cursor.fetchall()
+        cursor.execute("SELECT * FROM sites;")
+        siteList = cursor.fetchall()
+        return render_template("bookingform.html", booking=booking_data, customerlist=customerList, sitelist=siteList, currentdate=datetime.now().date(), edit_mode=True)
+    else:
+        bookingDate = request.form.get('bookingdate')
+        bookingNights = request.form.get('bookingnights')
+        occupancy = request.form.get('occupancy')
+        customer = request.form.get('customer')
+        site = request.form.get('site')
+
+        # Fetch original booking details for comparison
+        cursor.execute("SELECT booking_date, nights, occupancy, customer, site FROM bookings WHERE booking_id = %s;", (booking_id,))
+        original_booking = cursor.fetchone()
+
+        # Debugging prints
+        print(f"Original booking: {original_booking}")
+        print(f"Form data: {bookingDate}, {bookingNights}, {occupancy}, {customer}, {site}")
+
+        # Compare form data with original booking details
+        if (bookingDate == original_booking[0].isoformat() and
+            int(bookingNights) == original_booking[1] and
+            int(occupancy) == original_booking[2] and
+            int(customer) == original_booking[3] and
+            site == original_booking[4]):
+            flash('No changes were made.', 'info')
+        else:
+            cursor.execute("""
+                UPDATE bookings SET booking_date=%s, nights=%s, occupancy=%s, customer=%s, site=%s
+                WHERE booking_id=%s;
+            """, (bookingDate, bookingNights, occupancy, customer, site, booking_id))
+            conn.commit()
+            flash('Booking updated successfully!', 'success')
+        
+        return redirect(url_for('booking_list'))
+
+# camper list -show booking result 
+@app.route("/camper_list", methods=['GET'])
 def booking_list():
     cursor, _ = getCursor()
     cursor.execute("""
@@ -171,36 +226,7 @@ def booking_list():
         """, (booking_to_delete,))
        booking_to_delete = cursor.fetchone()
     return render_template("bookinglistedit.html", bookings=bookings, booking_to_delete=booking_to_delete )
-# edit booking
-@app.route("/booking/edit/<int:booking_id>", methods=['GET', 'POST'])
-def edit_booking(booking_id):
-    cursor, conn = getCursor()
-    if request.method == 'GET':
-        cursor.execute("SELECT * FROM bookings WHERE booking_id = %s;", (booking_id,))
-        booking = cursor.fetchone()
-        if not booking:
-            flash('Booking not found!', 'danger')
-            return redirect(url_for('booking_list'))
 
-        cursor.execute("SELECT * FROM customers;")
-        customerList = cursor.fetchall()
-        cursor.execute("SELECT * FROM sites;")
-        siteList = cursor.fetchall()
-        return render_template("bookingform.html", booking=booking, customerlist=customerList, sitelist=siteList, bookingdate=booking[3], bookingnights=booking[5], occupancy=booking[2], form_title="Edit Booking", action="edit", booking_id=booking_id, selected_customer=booking[1], selected_site=booking[4])
-    else:
-        bookingDate = request.form.get('bookingdate')
-        bookingNights = request.form.get('bookingnights')
-        occupancy = request.form.get('occupancy')
-        customer = request.form.get('customer')
-        site = request.form.get('site')
-
-        cursor.execute("""
-            UPDATE bookings SET booking_date=%s, nights=%s, occupancy=%s, customer=%s, site=%s
-            WHERE booking_id=%s;
-        """, (bookingDate, bookingNights, occupancy, customer, site, booking_id))
-        conn.commit()
-        flash('Booking updated successfully!', 'success')
-        return redirect(url_for('booking_list'))
 # delet booking
 @app.route("/booking/delete/<int:booking_id>", methods=['GET', 'POST'])
 def confirm_delete_booking(booking_id):

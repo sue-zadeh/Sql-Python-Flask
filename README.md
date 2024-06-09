@@ -102,7 +102,7 @@ Another issues I encountered was with one of the requirements to show the total 
 
 After adding the column, I noticed that the existing rows had no values for the nights column. To address this, I decided to set the default value to '1' for previous bookings using this code:
 
-    UPDATE bookings SET nights = 1;
+    UPDATE bookings SET nights = 5;
 
 Then, I added the nights column (bookings.nights) in my code.
 

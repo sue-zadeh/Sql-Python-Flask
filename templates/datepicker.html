@@ -3,26 +3,25 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <h2 class="text-danger text-center">{{ 'Edit Booking' if edit_mode else 'Make Booking' }}</h2>
-      <form action="{{ url_for('booking', booking_id=booking.booking_id if edit_mode else None) }}" method="POST">
+      <h2 class="text-danger text-center">Select Booking Dates</h2>
+      <form action="{{ url_for('booking') }}" method="POST" class="m-5">
         <div class="mb-3">
-          <label for="bookingdate" class="form-label">Booking Date</label>
-          <input type="date" class="form-control" name="bookingdate"  min="{{ currentdate }}" value=" "{{ currentdate }} {{ booking.booking_date if edit_mode else '' }}" required>
+          <label for="bookingdate" class="form-label text-light">Start Date</label>
+          <input type="date" class="form-control" min="{{ currentdate }}" name="bookingdate" required>
         </div>
-    <div class="mb-3">
-        <label for="bookingnights" class="form-label text-light">Number of nights</label>
-        <input type="number" class="form-control" name="bookingnights" min="1" max="5" step="1" value="{% if edit_mode %}{{ booking[5] }}{% else %}1{% endif %}" required>
+        <div class="mb-3">
+          <label for="bookingnights" class="form-label text-light" >Number of Nights</label>
+          <input type="number" class="form-control" name="bookingnights" min="1" max="5" step="1" value="1" required>
+        </div>
+        <div class="mb-3">
+          <label for="occupancy" class="form-label text-light" >Number of People</label>
+          <input type="number" class="form-control" name="occupancy" min="1" max="8" step="1" value="1" required>
+        </div>
+        <div class="d-flex justify-content-center">
+          <input type="submit" class="btn btn-danger btn-outline-successprimary justify-content-center fs-6 w-25 mt-3" value="Next">
+        </div>
+      </form>
     </div>
-    <div class="mb-3">
-        <label for="occupancy" class="form-label text-light">Number of people</label>
-        <input type="number" class="form-control" name="occupancy" min="1" max="8" step="1" value="{% if edit_mode %}{{ booking[2] }}{% else %}1{% endif %}" required>
-    </div>
-    <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-danger justify-content-center fs-6 w-25 mt-3">Submit</button>
-    </div>
-  </form>
-   </div>
   </div>
 </div>
-
 {% endblock %}
